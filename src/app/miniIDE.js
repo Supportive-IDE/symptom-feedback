@@ -1,5 +1,5 @@
 import CodeEditor from "./codeEditor";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Sk from "skulpt";
 import CodeOutput from "./codeOutput";
 import styles from "./miniIDE.module.css";
@@ -53,7 +53,7 @@ const MiniIDE = ({startingCode}) => {
 
     const inputFunc = prompt => {
         const p = new Promise(function(resolve, reject) {
-            const userIn = <RawInput prompt={prompt} changeHandler={val => {
+            const userIn = <RawInput prompt={prompt} submitHandler={val => {
                 resolve(val);
                 // convert raw input to text
                 setOut(prevLines => {

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import styles from "./rawInput.module.css";
 
-const RawInput = ({prompt, changeHandler}) => {
+const RawInput = ({prompt, changeHandler: submitHandler}) => {
     const [value, setValue] = useState("");
 
     const keyDown = event => {
         if (event.keyCode === 13) {
-            changeHandler(value);
+            submitHandler(value);
         }
     } 
     const valueChanged = event => {

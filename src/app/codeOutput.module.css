@@ -6,3 +6,7 @@
     background-color: rgb(var(--foreground-rgb));
     color: rgb(var(--background-rgb));
 }
+
+.repl {
+    width: 100%;
+}
