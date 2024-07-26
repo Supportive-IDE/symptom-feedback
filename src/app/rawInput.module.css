@@ -1,0 +1,11 @@
+.userInput {
+    border: solid 1px rgb(var(--background-rgb));
+    font-size: inherit;
+    font-family: inherit;
+    background-color: rgb(var(--foreground-rgb));
+    color: rgb(var(--background-rgb));
+}
+
+.userInput:focus {
+    outline: none;
+}

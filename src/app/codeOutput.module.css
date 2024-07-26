@@ -1,0 +1,8 @@
+.output {
+    font-family: var(--font-mono);
+    border: solid 1px #666;
+    padding: 1rem;
+    min-width: max(50%, 400px);
+    background-color: rgb(var(--foreground-rgb));
+    color: rgb(var(--background-rgb));
+}

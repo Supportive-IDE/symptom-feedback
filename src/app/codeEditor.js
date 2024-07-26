@@ -7,7 +7,7 @@ import {python} from "@codemirror/lang-python"
 import styles from "./codeEditor.module.css";
 
 
-const CodeEditor = ({startingCode, setView}) => {
+const CodeEditor = ({startingCode, setView, runCode}) => {
     const parentDiv = useRef(null);
 
     useEffect(() => {
@@ -29,7 +29,9 @@ const CodeEditor = ({startingCode, setView}) => {
         };
     }, [parentDiv, startingCode, setView]);
       
-    return <div className={styles.codeEditor} ref={parentDiv} ></div>;
+    return <div className={styles.codeEditor} ref={parentDiv} >
+        <button id={styles.runButton} onClick={runCode}>Run</button>
+    </div>;
 }
 
 export default CodeEditor;

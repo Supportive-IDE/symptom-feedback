@@ -1,5 +1,4 @@
 .codeEditor {
-    width: 100%;
     min-height:0;
     border: 1px solid #666;
     flex:1 1 auto;
@@ -8,6 +7,7 @@
     max-height:80vh;
     position:relative;
     overflow: scroll;
+    min-width: max(50%, 400px);
 }
 
 .cm-editor {
@@ -17,4 +17,12 @@
     left:0;
     right:0;
     height:100%;
+}
+
+#runButton {
+    position: absolute;
+    z-index: 1000;
+    bottom: 10px;
+    right: 10px;
+    padding: 0.2rem 0.5rem;
 }
