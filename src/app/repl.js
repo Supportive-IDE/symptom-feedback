@@ -48,7 +48,7 @@ const Repl = () => {
                 //     return lines
                 // });
             }} />
-            addOutput([userIn]);
+            // addOutput([userIn]);
         });
         return p;
     }
@@ -71,27 +71,38 @@ const Repl = () => {
             } else {
                 userIn = "__result = " + userIn;	
             }
-            let r = eval(Sk.compile(userIn, "repl", "exec", true).code)(Sk.globals);
-            let startTime = new Date().getTime();
-            while(r.$isSuspension) {
-                if(r.data.promise) {
-                    r.data.promise.then(function(result) {
-                        if(outputResult) {
-                            addOutput([Sk.ffi.remapToJs(Sk.builtin.repr(result)), newPrompt()]);	
-                        }
-                    }).catch(function (error) {console.log(error)});
-                } else {
-                    r = r.resume();
+            try {
+                let r = eval(Sk.compile(userIn, "repl", "exec", true).code)(Sk.globals);
+                let startTime = new Date().getTime();
+                while(r.$isSuspension) {
+                    if(r.data.promise) {
+                        r.data.promise.then(function(result) {
+                            if(outputResult) {
+                                addOutput([Sk.ffi.remapToJs(Sk.builtin.repr(result)), newPrompt()]);	
+                            }
+                        }).catch(function (error) {
+                            console.log(error)
+                        });
+                    } else {
+                        r = r.resume();
+                    }
+                    let now = new Date().getTime();
+                    if(now - startTime > 5000) {
+                        addOutput(["Stopped after 5s to prevent browser crashing"]);
+                        break;
+                    }
+                } 
+                if(r.__result && outputResult) {
+                    if (r.__result.v) {
+                        addOutput([Sk.ffi.remapToJs(Sk.builtin.repr(r.__result)), newPrompt()]);
+                    } else {
+                        addOutput([newPrompt()]);
+                    }
                 }
-                let now = new Date().getTime();
-                if(now - startTime > 5000) {
-                    addOutput(["Stopped after 5s to prevent browser crashing"]);
-                    break;
-                }
-            } 
-            if(r.__result && outputResult) {
-                addOutput([Sk.ffi.remapToJs(Sk.builtin.repr(r.__result)), newPrompt()]);
+            } catch (evalError) {
+                console.log("eval", evalError);
             }
+            
         }
     }
 
