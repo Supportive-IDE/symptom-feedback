@@ -56,11 +56,11 @@ const MiniIDE = ({startingCode}) => {
             const userIn = <RawInput prompt={prompt} submitHandler={val => {
                 resolve(val);
                 // convert raw input to text
-                setOut(prevLines => {
-                    const lines = [...prevLines.slice(0, -1)];
-                    lines.push(`${prompt}${val}`);
-                    return lines
-                });
+                // setOut(prevLines => {
+                //     const lines = [...prevLines.slice(0, -1)];
+                //     lines.push(`${prompt}${val}`);
+                //     return lines
+                // });
             }} />
             addOutput(userIn);
         });

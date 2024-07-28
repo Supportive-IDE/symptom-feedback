@@ -100,34 +100,34 @@ function runInteractive(code) {
         console.log(result);
         if(result.length > 0) {
             var outputResult = true;
-    if(code.match(/\s*import/)) {
-        outputResult = false;
-    } else {
-        code = "__result = " + code;	
-    }
-    var r = eval(Sk.compile(code, "repl", "exec", true).code)(Sk.globals);
-    var startTime = new Date().getTime();
-    while(r.$isSuspension) {
-        if(r.data.promise) {
-            r.data.promise.then(function(result) {
-                if(outputResult) {
-                    console.log("a")
-                    outf(Sk.ffi.remapToJs(Sk.builtin.repr(result)));	
+            if(code.match(/\s*import/)) {
+                outputResult = false;
+            } else {
+                code = "__result = " + code;	
+            }
+            var r = eval(Sk.compile(code, "repl", "exec", true).code)(Sk.globals);
+            var startTime = new Date().getTime();
+            while(r.$isSuspension) {
+                if(r.data.promise) {
+                    r.data.promise.then(function(result) {
+                        if(outputResult) {
+                            console.log("a")
+                            outf(Sk.ffi.remapToJs(Sk.builtin.repr(result)));	
+                        }
+                    }).catch(function (error) {console.log(error)});
+                } else {
+                    r = r.resume();
                 }
-            }).catch(function (error) {console.log(error)});
-        } else {
-            r = r.resume();
-        }
-        var now = new Date().getTime();
-        if(now - startTime > 5000) {
-            //PythonIDE.showHint("Stopped after 5s to prevent browser crashing");
-            break;
-        }
-    } 
-    if(r.__result && outputResult) {
-        console.log("b")
-        outf(Sk.ffi.remapToJs(Sk.builtin.repr(r.__result)));
-    }
+                var now = new Date().getTime();
+                if(now - startTime > 5000) {
+                    //PythonIDE.showHint("Stopped after 5s to prevent browser crashing");
+                    break;
+                }
+            } 
+            if(r.__result && outputResult) {
+                console.log("b")
+                outf(Sk.ffi.remapToJs(Sk.builtin.repr(r.__result)));
+            }
         }
     }).catch(function (error) {console.log(error)});
 }
