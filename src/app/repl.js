@@ -93,14 +93,16 @@ const Repl = () => {
                     }
                 } 
                 if(r.__result && outputResult) {
-                    if (r.__result.v) {
+                    if (r.__result.v !== null) {
                         addOutput([Sk.ffi.remapToJs(Sk.builtin.repr(r.__result)), newPrompt()]);
                     } else {
                         addOutput([newPrompt()]);
                     }
                 }
             } catch (evalError) {
+                const msgs = evalError.args.v.map(obj => "Error: " + obj.v);
                 console.log("eval", evalError);
+                addOutput([...msgs, newPrompt()]);
             }
             
         }
