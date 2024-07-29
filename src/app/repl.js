@@ -7,14 +7,10 @@ import RawInput from "./rawInput";
 const Repl = () => {
 
     const commandEntered = command => {
-        // Execute the user's command
+        // Execute the user's command if it doesn't contain an input
+        // const matchInputs = command.match(/\s*input\((.*)\)/)
+        // if (matchInputs === null || matchInputs.length === 0) {
         runInteractive(command);
-        // replace the prompt in the out array with the text
-        // setOut(prevLines => {
-        //     const lines = [...prevLines.slice(0, -1)];
-        //     lines.push(`>>> ${command}`);
-        //     return lines
-        // });
     }
 
     const newPrompt = () => <RawInput key="start" prompt={">>> "} submitHandler={val => commandEntered(val)} />
@@ -38,17 +34,15 @@ const Repl = () => {
 
     // VERY BROKEN!
     const inputFunc = prompt => {
+        console.log("input", prompt);
         const p = new Promise(function(resolve, reject) {
+            // Need to let existing input resolve first
             const userIn = <RawInput prompt={prompt} submitHandler={val => {
+                console.log("resolving input", prompt)
                 resolve(val);
-                // convert raw input to text
-                // setOut(prevLines => {
-                //     const lines = [...prevLines.slice(0, -1)];
-                //     lines.push(`${prompt}${val}`);
-                //     return lines
-                // });
             }} />
-            // addOutput([userIn]);
+            console.log("adding input");
+            addOutput([userIn]);
         });
         return p;
     }
@@ -74,13 +68,21 @@ const Repl = () => {
             try {
                 let r = eval(Sk.compile(userIn, "repl", "exec", true).code)(Sk.globals);
                 let startTime = new Date().getTime();
-                while(r.$isSuspension) {
+                if(r.$isSuspension) {
                     if(r.data.promise) {
                         r.data.promise.then(function(result) {
                             if(outputResult) {
-                                addOutput([Sk.ffi.remapToJs(Sk.builtin.repr(result)), newPrompt()]);	
+                                console.log("Suspension complete", rawIn, result);
+                                
+                                // The line below causes an error... result is not what it needs - try calling runInteractive with the input replaced with result
+                                // addOutput([Sk.ffi.remapToJs(Sk.builtin.repr(result)), newPrompt()]);	
+                                // addOutput([newPrompt()]);
+
+                                const replaceInput = userIn.replace(/\s*input\(.*\)/, `"${result}"`);
+                                runInteractive(replaceInput);
                             }
                         }).catch(function (error) {
+                            console.log("Suspension error", rawIn);
                             console.log(error)
                         });
                     } else {
@@ -88,20 +90,22 @@ const Repl = () => {
                     }
                     let now = new Date().getTime();
                     if(now - startTime > 5000) {
-                        addOutput(["Stopped after 5s to prevent browser crashing"]);
-                        break;
+                        addOutput(["Stopped after 5s to prevent browser crashing", newPrompt()]);
+                        // break;
                     }
                 } 
                 if(r.__result && outputResult) {
                     if (r.__result.v !== null) {
+                        console.log("Run complete", rawIn);
                         addOutput([Sk.ffi.remapToJs(Sk.builtin.repr(r.__result)), newPrompt()]);
                     } else {
+                        console.log("Run complete 2", rawIn);
                         addOutput([newPrompt()]);
                     }
                 }
             } catch (evalError) {
                 const msgs = evalError.args.v.map(obj => "Error: " + obj.v);
-                console.log("eval", evalError);
+                console.log("eval", rawIn, evalError);
                 addOutput([...msgs, newPrompt()]);
             }
             
