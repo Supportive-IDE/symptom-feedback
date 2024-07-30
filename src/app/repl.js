@@ -157,9 +157,7 @@ const Repl = () => {
                 }
             } catch (evalError) {
                 commandRef.current = "";
-                const msgs = evalError.args.v.map(obj => "Error: " + obj.v);
-                console.log("eval", rawIn, evalError);
-                addOutput([...msgs, newPrompt(PROMPT.PRIMARY)]);
+                addOutput([evalError.toString(), newPrompt(PROMPT.PRIMARY)]);
             }
         }
     }

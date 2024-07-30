@@ -12,6 +12,7 @@ const RawInput = ({prompt, submitHandler}) => {
         }
     } 
     const valueChanged = event => {
+        console.log("Value:", event.target.value)
         setValue(event.target.value);
     }
 
@@ -20,7 +21,7 @@ const RawInput = ({prompt, submitHandler}) => {
             <label htmlFor="userIn">{prompt}</label>
             <input id="userIn" className={styles.userInput} type="text" onKeyDown={keyDown} onChange={valueChanged} value={value} autoFocus/>
         </p>
-        : <p>{prompt}{value}</p>
+        : <p className={styles.savedInput}>{prompt}{value}</p>
     };
 
 export default RawInput;

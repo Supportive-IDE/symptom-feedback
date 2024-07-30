@@ -9,3 +9,7 @@
 .userInput:focus {
     outline: none;
 }
+
+.savedInput {
+    white-space: pre;
+}
