@@ -1,5 +1,5 @@
 import styles from "./codeOutput.module.css";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import CodeOutput from "./codeOutput";
 import Sk from "skulpt";
 import RawInput from "./rawInput";
@@ -22,6 +22,10 @@ const Repl = () => {
 
     const isTrigger = commandChar => commandChar === ":" || commandChar === "/";
 
+    /**
+     * Checks if the repl mode should be primary or secondary and updates as needed
+     * @param {string} command last line entered by user
+     */
     const updateMode = command => {
         const currentMode = modeRef.current[0];
         const enterSecondary = command.length > 0 && isTrigger(command[command.length - 1]);
@@ -36,9 +40,12 @@ const Repl = () => {
         }
     }
 
-    // UPDATE TO USE MODE
-    const newPrompt = prompt => <RawInput key="start" prompt={prompt} submitHandler={val => commandEntered(val)} />
+    const newPrompt = () => <RawInput key="start" prompt={modeRef.current[0] === MODE.PRIMARY ? PROMPT.PRIMARY : PROMPT.SECONDARY} submitHandler={val => commandEntered(val)} />
 
+    /**
+     * Event handler called when RawInput receives an Enter key.
+     * @param {string} command 
+     */
     const commandEntered = command => {
         updateMode(command);
         const currentMode = modeRef.current[0];
@@ -58,7 +65,6 @@ const Repl = () => {
         
     }
 
-    // Need a notion of mode - primary, secondary (after : or \)...need to track with a stack to handle nesting... back out of secondary by pressing enter twice
     const [out, setOut] = useState([newPrompt(PROMPT.PRIMARY)]);
     
 
@@ -76,19 +82,17 @@ const Repl = () => {
     }
 
     // const inputFunc = prompt => {
-    //     console.log("inputFunc")
-    //     // works if don't use a custom input function
-    //     waitForInput.current = true;
-    //     return new Promise(function(resolve, reject) {
-    //         console.log("inputFunc promise");
-    //         // Need to let existing input resolve first
-    //         const userIn = <RawInput prompt={prompt} submitHandler={val => {
-    //             console.log("resolving input", prompt)
-    //             waitForInput.current = false;
-    //             resolve(val);
+    //     const p = new Promise(function(resolve, reject) {
+    //         waiting.current = true;
+    //         const userIn = <RawInput key={Date.now()} prompt={prompt} submitHandler={val => {
+    //             waiting.current = false;
+    //             // addOutput(newPrompt());
+    //             return resolve(val);
     //         }} />
-    //         console.log("adding input")
     //         addOutput([userIn]);
+    //     });
+    //     return p.then(() => {
+    //         addOutput([newPrompt()])
     //     });
     // }
 
@@ -98,8 +102,6 @@ const Repl = () => {
      * @param {string} userIn The response to the last prompt
      */
     const runInteractive = (userIn) => {
-        console.log("running with", userIn);
-        const rawIn = userIn;
         const isSingleCommand = userIn.split("\n").length === 1;
         Sk.configure({
             output: skulptOutput,
@@ -126,13 +128,14 @@ const Repl = () => {
                 optMessages.push(evalError.toString());
             }
             commandRef.current = "";
-            addOutput([...optMessages, newPrompt(PROMPT.PRIMARY)]);
+            optMessages.push(newPrompt());
+            addOutput(optMessages);
         }
     }
 
 
 
-    return <div className={styles.output + " " + styles.repl}>
+    return <div className={styles.repl}>
         <CodeOutput text={out} />
     </div>
 }

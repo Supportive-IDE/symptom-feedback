@@ -1,5 +1,5 @@
 import CodeEditor from "./codeEditor";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Sk from "skulpt";
 import CodeOutput from "./codeOutput";
 import styles from "./miniIDE.module.css";
@@ -14,9 +14,16 @@ import RawInput from "./rawInput";
  * @returns {JSX.Element} The rendered component.
  */
 const MiniIDE = ({startingCode}) => {
-    const [view, setView] = useState(null);
+    //const [view, setView] = useState(null);
     const [out, setOut] = useState([]);
+    const view = useRef(null);
+    const code = useRef(startingCode);
 
+    useEffect(() => {
+        console.log("out updated", out);
+    }, [out]);
+
+    
     /**
      * Adds a line of output text to the "terminal". The text comes from Skulpt on code execution.
      * @param {string} text 
@@ -30,10 +37,11 @@ const MiniIDE = ({startingCode}) => {
      * @returns {null}
      */
     const runCode = () => {
-        if (view === null) return;
+        if (view.current === null) return;
+        // This gets ignored after an input
         setOut([]);
         // Get the code in the editor view
-        const code = view.state.doc.toString();
+        code.current = view.current.state.doc.toString();
         // Configure Skulpt to execute the code
         Sk.configure({
             output: addOutput,
@@ -43,7 +51,7 @@ const MiniIDE = ({startingCode}) => {
         });
 
         // Run the code using Skulpt
-        const runner = Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, code, true));
+        const runner = Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, code.current, true));
         runner.then(_ => {
             console.log("success");
         }, err => {
@@ -53,15 +61,7 @@ const MiniIDE = ({startingCode}) => {
 
     const inputFunc = prompt => {
         const p = new Promise(function(resolve, reject) {
-            const userIn = <RawInput prompt={prompt} submitHandler={val => {
-                resolve(val);
-                // convert raw input to text
-                // setOut(prevLines => {
-                //     const lines = [...prevLines.slice(0, -1)];
-                //     lines.push(`${prompt}${val}`);
-                //     return lines
-                // });
-            }} />
+            const userIn = <RawInput key={Date.now()} prompt={prompt} submitHandler={val => resolve(val)} />
             addOutput(userIn);
         });
         return p;
@@ -69,7 +69,7 @@ const MiniIDE = ({startingCode}) => {
 
     return (
         <div className={styles.miniIDE}>
-            <CodeEditor startingCode={startingCode} setView={setView} runCode={runCode} />
+            <CodeEditor startingCode={code.current} setView={v => { view.current = v; }} runCode={runCode} />
             <CodeOutput text={out} />
         </div>
     )

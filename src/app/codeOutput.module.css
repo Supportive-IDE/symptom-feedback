@@ -3,10 +3,14 @@
     border: solid 1px #666;
     padding: 1rem;
     min-width: max(50%, 400px);
+    max-width: max(50%, 400px);
     background-color: rgb(var(--foreground-rgb));
     color: rgb(var(--background-rgb));
+    overflow-x: scroll;
 }
 
-.repl {
+.repl, .repl > .output {
     width: 100%;
+    min-width: 100%;
+    max-width: 100%;
 }
