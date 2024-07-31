@@ -19,7 +19,6 @@ const Repl = () => {
 
     const modeRef = useRef([MODE.PRIMARY]);
     const commandRef = useRef("");
-    const waitForInput = useRef(false);
 
     const isTrigger = commandChar => commandChar === ":" || commandChar === "/";
 
@@ -28,23 +27,21 @@ const Repl = () => {
         const enterSecondary = command.length > 0 && isTrigger(command[command.length - 1]);
         if (currentMode === MODE.PRIMARY) {
             if (enterSecondary) {
-                console.log("Adding secondary to current mode stack:", modeRef.current);
                 modeRef.current.unshift(MODE.SECONDARY);
             }
         } else if (currentMode === MODE.SECONDARY) {
             if (command.length === 0) {
-                console.log("Pop secondary mode");
                 modeRef.current.shift();
             }
         }
     }
 
+    // UPDATE TO USE MODE
     const newPrompt = prompt => <RawInput key="start" prompt={prompt} submitHandler={val => commandEntered(val)} />
 
     const commandEntered = command => {
         updateMode(command);
         const currentMode = modeRef.current[0];
-        console.log("current mode", currentMode)
         // Add the command to the commandRef
         if (command.length > 0) {
             if (currentMode === MODE.SECONDARY) {
@@ -54,8 +51,6 @@ const Repl = () => {
             }
         }
         if (currentMode === MODE.PRIMARY) {
-            console.log("Running:")
-            console.log(commandRef.current);
             runInteractive(commandRef.current);
         } else {
             addOutput([newPrompt(PROMPT.SECONDARY)]);
@@ -77,26 +72,25 @@ const Repl = () => {
     }
 
     const skulptOutput = item => {
-        // Phantom output caused by multiline statement execution
-        console.log("Skulpt:", item)
         setOut(prevItems => [...prevItems, item]);
     }
 
-    const inputFunc = prompt => {
-        // console.log("input", prompt);
-        waitForInput.current = true;
-        const p = new Promise(function(resolve, reject) {
-            // Need to let existing input resolve first
-            const userIn = <RawInput prompt={prompt} submitHandler={val => {
-                // console.log("resolving input", prompt)
-                waitForInput.current = false;
-                resolve(val);
-            }} />
-            // console.log("adding input");
-            addOutput([userIn]);
-        });
-        return p;
-    }
+    // const inputFunc = prompt => {
+    //     console.log("inputFunc")
+    //     // works if don't use a custom input function
+    //     waitForInput.current = true;
+    //     return new Promise(function(resolve, reject) {
+    //         console.log("inputFunc promise");
+    //         // Need to let existing input resolve first
+    //         const userIn = <RawInput prompt={prompt} submitHandler={val => {
+    //             console.log("resolving input", prompt)
+    //             waitForInput.current = false;
+    //             resolve(val);
+    //         }} />
+    //         console.log("adding input")
+    //         addOutput([userIn]);
+    //     });
+    // }
 
     
     /**
@@ -104,13 +98,12 @@ const Repl = () => {
      * @param {string} userIn The response to the last prompt
      */
     const runInteractive = (userIn) => {
-        // console.log("running with", userIn);
+        console.log("running with", userIn);
         const rawIn = userIn;
         const isSingleCommand = userIn.split("\n").length === 1;
         Sk.configure({
             output: skulptOutput,
             __future__: Sk.python3,
-            inputfun: inputFunc,
             inputfunTakesPrompt: true
         });
         let $compiledmod; // Seems to fix the weird $compiledmod is not defined error
@@ -121,44 +114,19 @@ const Repl = () => {
             } else if (isSingleCommand) {
                 userIn = "__result = " + userIn;
             }
+            const optMessages = [];
             try {
                 let r = eval(Sk.compile(userIn, "repl", "exec", true).code)(Sk.globals);
-                console.log(Sk.globals)
-                if(r.$isSuspension) {
-                    if(r.data.promise) {
-                        r.data.promise.then(function(result) {
-                            if(outputResult) {
-                                console.log("Suspension complete", rawIn, result);
-                                const replaceInput = userIn.replace(/\s*input\(.*\)/, `"${result}"`);
-                                commandRef.current = replaceInput;
-                                console.log("After input run", commandRef.current)
-                                runInteractive(replaceInput);
-                            }
-                        }).catch(function (error) {
-                            console.log("Suspension error", rawIn);
-                            console.log(error)
-                        });
-                    } else {
-                        r = r.resume();
-                    }
-                } 
                 if(r.__result && outputResult) {
-                    commandRef.current = "";
                     if (r.__result.v !== null && isSingleCommand) {
-                        console.log("Run complete", rawIn, r);
-                        addOutput([Sk.ffi.remapToJs(Sk.builtin.repr(r.__result)), newPrompt(PROMPT.PRIMARY)]);
-                    } else {
-                        console.log("Run complete 2", rawIn);
-                        addOutput([newPrompt(PROMPT.PRIMARY)]);
-                    }
-                } else if (!waitForInput.current) {
-                    commandRef.current = "";
-                    addOutput([newPrompt(PROMPT.PRIMARY)]);
-                }
+                        optMessages.push(Sk.ffi.remapToJs(Sk.builtin.repr(r.__result)));
+                    } 
+                } 
             } catch (evalError) {
-                commandRef.current = "";
-                addOutput([evalError.toString(), newPrompt(PROMPT.PRIMARY)]);
+                optMessages.push(evalError.toString());
             }
+            commandRef.current = "";
+            addOutput([...optMessages, newPrompt(PROMPT.PRIMARY)]);
         }
     }
 

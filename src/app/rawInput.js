@@ -12,7 +12,6 @@ const RawInput = ({prompt, submitHandler}) => {
         }
     } 
     const valueChanged = event => {
-        console.log("Value:", event.target.value)
         setValue(event.target.value);
     }
 
