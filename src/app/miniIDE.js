@@ -59,6 +59,12 @@ const MiniIDE = ({startingCode}) => {
         });
     }
 
+    const resetCode = () => {
+        code.current = startingCode;
+        view.current.state.doc = typeof startingCode === "string" ? startingCode : startingCode.join("\n");
+        setOut([]);
+    }
+
     const inputFunc = prompt => {
         const p = new Promise(function(resolve, reject) {
             const userIn = <RawInput key={Date.now()} prompt={prompt} submitHandler={val => resolve(val)} />
@@ -69,7 +75,7 @@ const MiniIDE = ({startingCode}) => {
 
     return (
         <div className={styles.miniIDE}>
-            <CodeEditor startingCode={code.current} setView={v => { view.current = v; }} runCode={runCode} />
+            <CodeEditor startingCode={code.current} setView={v => { view.current = v; }} runCode={runCode} resetCode={resetCode} />
             <CodeOutput text={out} />
         </div>
     )

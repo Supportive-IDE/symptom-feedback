@@ -8,6 +8,7 @@
     position:relative;
     overflow: scroll;
     min-width: max(50%, 400px);
+    max-width: 50%;
 }
 
 .cm-editor {
@@ -19,10 +20,13 @@
     height:100%;
 }
 
-#runButton {
+.buttons {
     position: absolute;
     z-index: 1000;
     bottom: 10px;
     right: 10px;
-    padding: 0.2rem 0.5rem;
+}
+
+#runButton {
+    margin-right: 6px;
 }
