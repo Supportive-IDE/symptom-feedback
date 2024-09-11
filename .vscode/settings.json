@@ -1,3 +1,4 @@
 {
-    "livePreview.customExternalBrowser": "Chrome"
+    "livePreview.customExternalBrowser": "Chrome",
+    "workbench.colorTheme": "Tomorrow Night Blue"
 }

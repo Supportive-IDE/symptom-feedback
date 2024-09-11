@@ -47,11 +47,11 @@ body {
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
-  line-height: 1.5rem;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1, h2, h3, h4, h5, h6, p, li {
   margin: 1em 0.5em 0 0;
+  line-height: 1.5em;
 }
 
 a {

@@ -28,7 +28,7 @@ const CodeEditor = ({startingCode, setView, runCode, resetCode}) => {
             setView(null);
             
         };
-    }, [parentDiv, startingCode, setView]);
+    }, [parentDiv, startingCode, setView, startingCodeCombined]);
       
     return <div className={styles.codeEditor} ref={parentDiv} >
         <div className={styles.buttons}>

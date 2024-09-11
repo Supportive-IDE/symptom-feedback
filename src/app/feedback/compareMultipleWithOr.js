@@ -1,5 +1,6 @@
 import { INVALID, LINE_NUMBER, NONE, NOT_PARSED, UNDEFINED, UNKNOWN, NA, VARIABLE_NAME, INT, FLOAT, STRING, INT_LITERAL, FLOAT_LITERAL, STRING_LITERAL, IF_DEFINITION_STATEMENT, ELIF_DEFINITION, ELIF_DEFINITION_STATEMENT, WHILE_DEFINITION_STATEMENT, ASSIGNMENT_STATEMENT, CHANGE_STATEMENT } from "../config";
 import MiniIDE from "../miniIDE";
+import { findAndConvertUrlParam } from "@/utils";
 
 /** URL params */
 const booleanExpressionText = "booleanExpressionText";
@@ -28,21 +29,21 @@ class CompareOr {
 
     constructor(searchParams) {
         this.lineNumber = searchParams.has(LINE_NUMBER) ? Number(searchParams.get(LINE_NUMBER)): -1;
-        this.booleanExpressionText = this.#findAndConvertStringParam(searchParams, booleanExpressionText);
-        this.parentText = this.#findAndConvertStringParam(searchParams, parentText);
-        this.parentEntity = this.#findAndConvertStringParam(searchParams, parentEntity);
+        this.booleanExpressionText = findAndConvertUrlParam(searchParams, booleanExpressionText);
+        this.parentText = findAndConvertUrlParam(searchParams, parentText);
+        this.parentEntity = findAndConvertUrlParam(searchParams, parentEntity);
         this.nonBooleanTexts = searchParams.getAll(nonBooleanText);
         this.nonBooleanEntities = searchParams.getAll(nonBooleanEntity);
         this.nonBooleanTypes = searchParams.getAll(nonBooleanType);
         this.operators = searchParams.getAll(operator);
-        this.leftSideText = this.#findAndConvertStringParam(searchParams, leftSideText);
-        this.leftSideEntity = this.#findAndConvertStringParam(searchParams, leftSideEntity);
-        this.leftSideType = this.#findAndConvertStringParam(searchParams, leftSideType);
+        this.leftSideText = findAndConvertUrlParam(searchParams, leftSideText);
+        this.leftSideEntity = findAndConvertUrlParam(searchParams, leftSideEntity);
+        this.leftSideType = findAndConvertUrlParam(searchParams, leftSideType);
     }
 
-    #findAndConvertStringParam(searchParams, paramName) {
-        return searchParams.has(paramName) ? decodeURIComponent(searchParams.get(paramName)) : "";
-    }
+    // #findAndConvertStringParam(searchParams, paramName) {
+    //     return searchParams.has(paramName) ? decodeURIComponent(searchParams.get(paramName)) : "";
+    // }
 
     countVariablesOfType(typeNames) {
         let count = 0;
