@@ -30,6 +30,11 @@ export const TYPE_SPECIFIED = "TypeMustBeSpecified";
 export const WHILE_SAME_AS_IF = "WhileSameAsIf";
 //#endregion
 
+//#region Selected symptoms
+export const ASSIGNED_NONE = "AssignedNone";
+export const UNUSED_RETURN = "UnusedReturn";
+//#endregion
+
 //#region data types
 export const INT = "int";
 export const FLOAT = "float";
