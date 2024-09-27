@@ -1,7 +1,8 @@
 "use client";
-import { COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, MISCON, PRINT_RETURN } from "./config";
+import { COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, FUNCTION_CALL_NO_PARENS, MISCON, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN } from "./config";
 import CompareMultipleWithOr from "./feedback/compareMultipleWithOr";
 import ConditionalIsSequence from "./feedback/conditionalIsSequence";
+import FunctionCallsNoParentheses from "./feedback/functionCallsNoParentheses";
 import PrintSameAsReturn from "./feedback/printSameAsReturn";
 import styles from "./page.module.css";
 import Repl from "./repl";
@@ -21,6 +22,9 @@ export default function Home() {
                         return <CompareMultipleWithOr misconInfo={searchParams} />
                     case CONDITIONAL_SEQUENCE:
                         return <ConditionalIsSequence misconInfo={searchParams} />
+                    case FUNCTION_CALL_NO_PARENS:
+                    case PARENS_ONLY_IF_ARGUMENT:
+                        return <FunctionCallsNoParentheses misconInfo={searchParams} />
                     case PRINT_RETURN:
                         return <PrintSameAsReturn misconInfo={searchParams} />
                     default:
