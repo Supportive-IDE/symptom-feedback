@@ -2,7 +2,7 @@ import CodeBlock from "../codeBlock";
 import CodeInline from "../codeInline";
 import { INVALID, LINE_NUMBER, NONE, NOT_PARSED, UNDEFINED, UNKNOWN, NA, VARIABLE_NAME, INT, FLOAT, STRING, INT_LITERAL, FLOAT_LITERAL, STRING_LITERAL, IF_DEFINITION_STATEMENT, ELIF_DEFINITION, ELIF_DEFINITION_STATEMENT, WHILE_DEFINITION_STATEMENT, ASSIGNMENT_STATEMENT, CHANGE_STATEMENT } from "../config";
 import MiniIDE from "../miniIDE";
-import { findAndConvertUrlParam } from "@/utils";
+import { findAndConvertUrlParam } from "../../utils";
 
 /** URL params */
 const booleanExpressionText = "booleanExpressionText";

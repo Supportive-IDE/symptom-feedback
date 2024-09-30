@@ -1,7 +1,8 @@
 "use client";
-import { COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, FUNCTION_CALL_NO_PARENS, MAP_BOOLEAN_TO_IF, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN } from "./config";
+import { COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FUNCTION_CALL_NO_PARENS, MAP_BOOLEAN_TO_IF, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN } from "./config";
 import CompareMultipleWithOr from "./feedback/compareMultipleWithOr";
 import ConditionalIsSequence from "./feedback/conditionalIsSequence";
+import DeferredReturn from "./feedback/deferredReturn";
 import FunctionCallsNoParentheses from "./feedback/functionCallsNoParentheses";
 import MapToBooleanWithIf from "./feedback/mapToBooleanWithIf";
 import ParamMustBeAssignedInFunction from "./feedback/parameterMustBeAssignedInFunction";
@@ -20,6 +21,8 @@ export default function Home() {
                         return <CompareMultipleWithOr misconInfo={searchParams} />
                     case CONDITIONAL_SEQUENCE:
                         return <ConditionalIsSequence misconInfo={searchParams} />
+                    case DEFERRED_RETURN:
+                        return <DeferredReturn misconInfo={searchParams} />
                     case FUNCTION_CALL_NO_PARENS:
                     case PARENS_ONLY_IF_ARGUMENT:
                         return <FunctionCallsNoParentheses misconInfo={searchParams} />

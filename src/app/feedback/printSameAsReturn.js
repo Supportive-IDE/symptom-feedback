@@ -1,5 +1,5 @@
-import { findAndConvertUrlParam } from "@/utils";
-import { ASSIGNED_NONE, LINE_NUMBER, UNUSED_RETURN } from "../config";
+import { findAndConvertUrlParam } from "../../utils";
+import { LINE_NUMBER, UNUSED_RETURN } from "../config";
 import MiniIDE from "../miniIDE";
 import CodeBlock from "../codeBlock";
 import CodeInline from "../codeInline";
