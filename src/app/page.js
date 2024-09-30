@@ -14,10 +14,6 @@ export default function Home() {
     const searchParams = useSearchParams();
     return (
         <main className={styles.main}>
-            {/* 
-            <Repl />
-            <MiniIDE /> 
-            */}
             { (() => {
                 switch (searchParams.get(MISCON)) {
                     case COMPARE_MULTIPLE_WITH_OR:
