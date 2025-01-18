@@ -19,6 +19,7 @@
     --highlight-button-bg: 52, 58, 235;
     --highlight-button-text: 255, 255, 255;
     --border-color: 200, 200, 200;
+    --obvious-border-color: 100, 100, 100;
   }
 }
 
@@ -29,6 +30,7 @@
     --highlight-button-bg: 255, 255, 255;
     --highlight-button-text: 52, 58, 235;
     --border-color: 100, 100, 100;
+    --obvious-border-color: 200, 200, 200;
   }
 }
 
@@ -36,6 +38,12 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+hr {
+  border-top-color: rgb(var(--obvious-border-color));
+  margin: 2em 0 1em 0;
+  width: 100%;
 }
 
 html,
