@@ -46,17 +46,17 @@ export default function ConditionalIsSequence({misconInfo}) {
     const ifs = getIfs(fullTextFormatted, lineNumber, ifStatementLineNumbers);
     return <>
         <h1>Sequence of <CodeInline code="if" /> statements</h1>
-        <p>There is a sequence of <CodeInline code="if" /> statements that have similar formats beginning on line {lineNumber}:</p>
+        <p>There is a sequence of similar <CodeInline code="if" /> statements starting on line {lineNumber}:</p>
         <CodeBlock code={ifs} />
         <p>If only one of these statements should execute, use <CodeInline code="elif" /> instead of <CodeInline code="if" /> for the 
        statements after the first <CodeInline code="if" />.</p>
        <h2>Why does it matter?</h2>
-       <p>When Python encounters a sequence of <CodeInline code="if" /> statements, as above, it will run every <CodeInline code="if" /> statement 
-       to see if it is <CodeInline code="True" />. If only one of these <code>if</code> branches should execute, a better approach is to use <CodeInline code="elif" /> instead 
-        of <CodeInline code="if" /> for all branches after the first <CodeInline code="if" />. This is more efficient because the interpreter will skip the rest of the 
-        conditional statement once a match is found. It will also ensure that only one branch of code will execute 
-        if the conditions overlap. If, however, each <CodeInline code="if" /> is independent of the others and it should be 
-        possible for more than one branch to run, then leave the <CodeInline code="if" /> statements as they are.</p>
+       <p><CodeInline code="if" /> statements are always executed. When only one of the <code>if</code> branches in a sequence should run, use <CodeInline code="elif" /> instead 
+        of <CodeInline code="if" /> for all branches after the first <CodeInline code="if" />. This is more efficient because Python will skip the rest of the 
+        conditional statement once a match is found. It will also ensure that only one branch of code can execute 
+        if the conditions overlap.</p>
+       <p>If it should be 
+        possible for more than one branch to run, leave the <CodeInline code="if" /> statements as they are.</p>
        <p>In the following code, both <CodeInline code="if" /> statements will execute because both 
         conditions are <CodeInline code="True" />.</p>
         <MiniIDE startingCode={["test = 4", "if test < 5:", '\tprint("smaller than 5")', 'if test < 10:', '\tprint("smaller than 10")']} />
