@@ -1,5 +1,5 @@
 "use client";
-import { COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FUNCTION_CALL_NO_PARENS, LOCAL_VARS_ARE_GLOBAL, MAP_BOOLEAN_TO_IF, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, TYPE_SPECIFIED } from "./config";
+import { COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FUNCTION_CALL_NO_PARENS, LOCAL_VARS_ARE_GLOBAL, MAP_BOOLEAN_TO_IF, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, TYPE_SPECIFIED, UNUSED_RETURN } from "./config";
 import CompareMultipleWithOr from "./feedback/compareMultipleWithOr";
 import ConditionalIsSequence from "./feedback/conditionalIsSequence";
 import DeferredReturn from "./feedback/deferredReturn";
@@ -9,6 +9,7 @@ import MapToBooleanWithIf from "./feedback/mapToBooleanWithIf";
 import ParamMustBeAssignedInFunction from "./feedback/parameterMustBeAssignedInFunction";
 import PrintSameAsReturn from "./feedback/printSameAsReturn";
 import TypeMustBeSpecified from "./feedback/typeMustBeSpecified";
+import UnusedReturn from "./feedback/unusedReturn";
 import styles from "./page.module.css";
 import Repl from "./repl";
 import { useSearchParams } from "next/navigation";
@@ -38,6 +39,8 @@ export default function Home() {
                         return <PrintSameAsReturn misconInfo={searchParams} />
                     case TYPE_SPECIFIED:
                         return <TypeMustBeSpecified misconInfo={searchParams} />
+                    case UNUSED_RETURN:
+                        return <UnusedReturn misconInfo={searchParams} />
                     default:
                         return <>
                             <p>Nothing here... Here&apos;s a REPL to play with:</p>
