@@ -132,7 +132,7 @@ class PrintReturnAssignedNone extends PrintReturn {
                 const extraPass = this.funcPrints ? <>If you were expecting {this.assignedNoneTarget !== "undefined" ? <CodeInline code={this.assignedNoneTarget} /> : "the argument"} to have the value currently printed to the terminal, then you 
                 can modify <CodeInline code={`${this.expressionText.split("(")[0]}()`}/> to return the value instead of printing it.</> : <></>
                 return <>As a result, the value of the argument that <CodeInline code={this.expressionText} /> is passed to will be <CodeInline code="None" />. {extraPass}</>
-            case usage.return:
+            case usage.return: // checked 21/1/2025
                 return <>This means the value of <CodeInline code={this.expressionText} /> will be <CodeInline code="None" />, which in turn means the return statement that calls <CodeInline code={this.expressionText} /> will also have no value.</>
             default:
                 return <>This means the value of <CodeInline code={this.expressionText} /> will be <CodeInline code="None" />.</>
@@ -301,7 +301,7 @@ class PrintReturnAssignedNone extends PrintReturn {
     #casePrintReturn() {
         return <>
             <h2>How to fix this?</h2>
-            <p>Separate printing and returning. If your function should <em>return</em> a value that can be used outside of the function then 
+            <p>If your function should <em>return</em> a value that can be used outside of the function then 
             you can remove the <CodeInline code="print()" /> and directly return the value currently passed to <CodeInline code="print()" />. If you 
             still want to print the returned value, you can call your function and pass the result to <CodeInline code="print()" /> elsewhere in your code.</p>
             <p>If your function just needs to print a message and does not need to return a value, then you can remove <CodeInline code="return" />.</p>
@@ -316,18 +316,6 @@ class PrintReturnAssignedNone extends PrintReturn {
             <p>This issue can be fixed by making sure the function always returns a value, rather than <CodeInline code="None" />. To do this, remove <CodeInline code="print()" /> from the return statements and return a string instead:</p>
             <MiniIDE startingCode={['def check_password_length(pwd):', '\tif len(pwd) < 8:', '\t\treturn "invalid"', '\telse:', '\t\treturn "valid"', '', 'result = check_password_length("123")','print("Your password choice is", result)']} />
         </>
-    }
-
-    #caseNoPrintReturn() {
-        if (this.funcPrints && this.expressionText.indexOf("(") > 0) {
-            return <>
-                <h2>More detail</h2>
-                <p><CodeInline code={`${this.expressionText.split("(")[0]}()`} /> prints but does not return a value. Consider modifying that function so that it returns 
-                    a value instead of printing. If that is not appropriate in this case, consider whether the function that returns <CodeInline code={this.expressionText} /> actually 
-                    needs to return something.</p>
-            </>
-        }
-        return <></>
     }
 
     // Checked 21/1/2025
@@ -375,7 +363,7 @@ class PrintReturnAssignedNone extends PrintReturn {
                 case usage.functionArgument:
                     return this.#caseNotPrintPassed();
                 case usage.return:
-                    return this.#caseNoPrintReturn();
+                    return this.#casePrintReturn(); // Using the same interactives as the print case
             }
         }
         return <></>
@@ -389,7 +377,7 @@ class PrintReturnAssignedNone extends PrintReturn {
      * - Passed as an argument - interactive example - checked
      * - Comparison - interactive example - checked
      * - Calculation - interactive example - checked
-     * - Return - interactive example - 
+     * - Return - interactive example - group2/S110/HW1/swimstats
      * It's not the print function - direct the student to look up the function in the docs*/
 
     /* 
