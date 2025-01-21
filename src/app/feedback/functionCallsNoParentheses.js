@@ -27,19 +27,19 @@ export default function FunctionCallsNoParentheses({misconInfo}) {
         {
             funcType === "userDefinedFunction" ?
                 <>
-                    <MiniIDE startingCode={['def squared(x):', '\treturn x * x', '', 'num = int(input("Enter a whole number: "))', 'result = squared', 'print(num, "squared is", result)']} />
+                    <MiniIDE startingCode={['# Incorrect', ' ','def squared(x):', '\treturn x * x', '', 'num = int(input("Enter a whole number: "))', 'result = squared', 'print(num, "squared is", result)']} />
                     <p>In the last line of output, notice that the <CodeInline code="result" /> variable&apos;s value is <CodeInline code="<function squared>" />. This is because the programmer has forgotten to include 
                     the parentheses and argument when calling <CodeInline code="squared" /> on line 5. Because of this, the function is not called but is assigned to the variable <CodeInline code="result" />.</p>
                     <p>Here is the corrected code. Line 5 has changed.</p>
-                    <MiniIDE startingCode={['def squared(x):', '\treturn x * x', '', 'num = int(input("Enter a whole number: "))', 'result = squared(num)', 'print(num, "squared is", result)']} />
+                    <MiniIDE startingCode={['# Correct', ' ','def squared(x):', '\treturn x * x', '', 'num = int(input("Enter a whole number: "))', 'result = squared(num)', 'print(num, "squared is", result)']} />
                 </>
                 :
                 <>
-                    <MiniIDE startingCode={['name = input', 'print("Hello, ", name)']} />
+                    <MiniIDE startingCode={['# Incorrect', ' ','name = input', 'print("Hello, ", name)']} />
                     <p>In the last line of output, notice that the <CodeInline code="name" /> variable&apos;s value is <CodeInline code="<built-in function input>" />. This is because the programmer has forgotten to include 
                     the parentheses and argument when calling <CodeInline code="input" /> on line 1. Because of this, the function is not called but is assigned to the variable <CodeInline code="name" />.</p>
                     <p>Here is the corrected code. Line 1 has changed.</p>
-                    <MiniIDE startingCode={['name = input("What is your name? ")', 'print("Hello, ", name)']} />
+                    <MiniIDE startingCode={['# Correct', ' ','name = input("What is your name? ")', 'print("Hello, ", name)']} />
                 </>
         }
     </>

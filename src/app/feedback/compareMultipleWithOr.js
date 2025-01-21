@@ -315,11 +315,11 @@ export default function CompareMultipleWithOr({misconInfo}) {
         }
         <h3>Example</h3>
         <p>The if statement below will not work as expected because <code>2</code> is a number, not a boolean expression:</p>
-        <MiniIDE startingCode={['guests = 10', '', '# incorrect', 'if guests == 1 or 2:', '    print("We have a room available for this number of guests.")', 'else:', '    print("Sorry, we can\'t fit you all in one room!")']} />
+        <MiniIDE startingCode={['# Incorrect', ' ', 'guests = 10', '', '# incorrect', 'if guests == 1 or 2:', '    print("We have a room available for this number of guests.")', 'else:', '    print("Sorry, we can\'t fit you all in one room!")']} />
         <p><code>2</code> is a truthy number so Python will always treat it as <code>True</code>. This means that <code>guests == 1 or 2</code> will be <code>True</code> no matter what 
         the value of <code>guests</code> is.</p>
         <p>Here is the correct code. Both expressions on either side of <CodeInline code="or" /> are boolean:</p>
-        <MiniIDE startingCode={['guests = 10', '', '# correct', 'if guests == 1 or guests == 2:', '    print("We have a room available for this number of guests.")', 'else:', '    print("Sorry, we can\'t fit you all in one room!")']} />
+        <MiniIDE startingCode={['# Correct', ' ', 'guests = 10', '', '# correct', 'if guests == 1 or guests == 2:', '    print("We have a room available for this number of guests.")', 'else:', '    print("Sorry, we can\'t fit you all in one room!")']} />
         
         <h2>Experiment</h2>
         <p>In the code below, try setting <CodeInline code="test_var" /> to different values to see if they are truthy or falsy. There are some ideas below the code.</p>
