@@ -10,6 +10,7 @@ import ParamMustBeAssignedInFunction from "./feedback/parameterMustBeAssignedInF
 import PrintSameAsReturn from "./feedback/printSameAsReturn";
 import TypeMustBeSpecified from "./feedback/typeMustBeSpecified";
 import UnusedReturn from "./feedback/unusedReturn";
+import MiniIDE from "./miniIDE";
 import styles from "./page.module.css";
 import Repl from "./repl";
 import { useSearchParams } from "next/navigation";
@@ -43,8 +44,8 @@ export default function Home() {
                         return <UnusedReturn misconInfo={searchParams} />
                     default:
                         return <>
-                            <p>Nothing here... Here&apos;s a REPL to play with:</p>
-                            <Repl />
+                            <p>Nothing here... Here&apos;s an editor to play with:</p>
+                            <MiniIDE startingCode="" />
                         </>
                 }})()
             }

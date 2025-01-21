@@ -22,7 +22,14 @@ const getArticle = val => {
     return "a";
 }
 
-
+const typeFunc = result => {
+    switch (result){
+        case "string":
+            return <CodeInline code="str()" />
+        default:
+            return <CodeInline code={result + "()"} />
+    }
+}
 
 export default function TypeMustBeSpecified({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
@@ -32,19 +39,18 @@ export default function TypeMustBeSpecified({misconInfo}) {
     const text = findAndConvertUrlParam(misconInfo, "text");
     return <>
         <h1>Unnecessary type conversion</h1>
-        <p>On line {lineNumber}, a built-in type function is called 
+        <p>On line {lineNumber}, {typeFunc(convertedType)} is called 
         to convert <CodeInline code={convertedValue} /> to {getArticle(convertedType)} {convertedType}:</p>
         <CodeBlock code={text} />
         <p><CodeInline code={convertedValue} /> is already {getArticle(convertedType)} {convertedType} so it is not necessary to 
         convert it.</p>
         <h2>More detail</h2>
-        <p>Python uses <strong>dynamic typing</strong> to figure out the data type of variables and other values. This means that, unlike many other 
-            languages, the programmer does not need to specify the data type of a value.
+        <p>Python uses <strong>dynamic typing</strong> to figure out the data type of variables and other values. This means that you do not need to specify the data type of a value.
         </p>
         <p>It is only necessary to use one of Python&apos;s type conversion functions (e.g. <CodeInline code="int()" />, <CodeInline code="float()" />, or <CodeInline code="str()" />) if 
         the data type needs to change.</p>
         <p>You should never need to use a type conversion function with a literal value. If you are unsure of the type of a variable or 
-            a value returned by a function, you can use the Python <CodeInline code="type()" /> function to check it. The text area below 
+            a value returned by a function, you can use the <CodeInline code="type()" /> function to check it. The text area below 
             is running Python in interactive mode. Try calling the <CodeInline code="type()" /> function with different values. Some suggestions 
             are below the text area. To use interactive mode, type a line of Python code and press Enter.
         </p>
@@ -55,10 +61,9 @@ export default function TypeMustBeSpecified({misconInfo}) {
             <li><CodeInline code="type(25.5)" /></li>
             <li><CodeInline code="type(False)" /></li>
             <li><CodeInline code="type('hello')" /></li>
-            <li>Try creating a variable then check its type on the next line. Interactive mode will remember the value of the variable you create.</li>
         </ul>
         <p>Here is an example where it <em>is</em> necessary to convert the data type of a value:</p>
-        <MiniIDE startingCode={['age = input("Enter your age: ")', 'dog_age = age * 7', 'print("You are", dog_age, "in dog years")']} />
+        <MiniIDE startingCode={['# Before', '', 'age = input("Enter your age: ")', 'dog_age = age * 7', 'print("You are", dog_age, "in dog years")']} />
         <p>If you run the code, you will see the age you enter at the prompt printed 7 times in a line, instead of the calculated age in 
             dog years. This occurs because the <CodeInline code="input()" /> function always returns a 
             string, even if the user enters a number. Multiplying a string by an integer, <CodeInline code="n" />, creates a new string with 
@@ -66,7 +71,7 @@ export default function TypeMustBeSpecified({misconInfo}) {
             can be fixed by using the <CodeInline code="int()" /> or <CodeInline code="float()" /> function to convert 
             the input string to a number:
         </p>
-        <MiniIDE startingCode={['age = int(input("Enter your age: "))', 'dog_age = age * 7', 'print("You are", dog_age, "in dog years")']} />
+        <MiniIDE startingCode={['# After', '', 'age = int(input("Enter your age: "))', 'dog_age = age * 7', 'print("You are", dog_age, "in dog years")']} />
     </>
 }
 

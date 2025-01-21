@@ -20,7 +20,7 @@ const MiniIDE = ({startingCode}) => {
     const code = useRef(startingCode);
 
     useEffect(() => {
-        console.log("out updated", out);
+        //console.log("out updated", out);
     }, [out]);
 
     
@@ -55,6 +55,7 @@ const MiniIDE = ({startingCode}) => {
         runner.then(_ => {
             console.log("success");
         }, err => {
+            console.log(err);
             addOutput(err.toString());
         });
     }

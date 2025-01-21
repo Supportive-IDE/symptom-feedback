@@ -17,7 +17,10 @@ const CodeEditor = ({startingCode, setView, runCode, resetCode}) => {
         const view = new EditorView({
             state: EditorState.create({ 
                 doc: startingCodeCombined,
-                extensions: [basicSetup, python(), keymap.of([defaultKeymap, indentWithTab])]
+                extensions: [
+                    basicSetup, python(),
+                     keymap.of([defaultKeymap, indentWithTab])
+                ]
             }),
             parent: parentDiv.current
         });

@@ -78,6 +78,10 @@ class PrintReturn {
     createInteractive() {
         return <p>Something useful but generic here!</p>
     }
+
+    createExample() {
+        return <p>Something useful but generic here!</p>
+    }
 }
 
 class PrintReturnAssignedNone extends PrintReturn {
@@ -102,25 +106,28 @@ class PrintReturnAssignedNone extends PrintReturn {
 
     createHelpSummary() {
         if (this.#isPrint()) {
-            const extra = <>If you would like to save the message as a variable and print it, try assigning the message to <CodeInline code={this.assignedNoneTarget} /> then printing <CodeInline code={this.assignedNoneTarget} /> on a later line.</>
+            const extra = <>If you would like to save the message as a variable AND print it, assign the message to <CodeInline code={this.assignedNoneTarget} /> then print <CodeInline code={this.assignedNoneTarget} /> on a later line.</>
             const starter = <p>The <CodeInline code="print()" /> function prints a message to the terminal but it does not have a value. {this.#getDetail()}{this.expressionType === "assignment" && this.assignedNoneTarget ? extra: ""}</p>
             return starter;
         } else if (this.funcPrints) {
-            return <p><CodeInline code={this.expressionText.split("(")[0] + "()"} /> prints a message to the terminal but does not return a value. {this.#getDetail()}</p>
+            return <p><CodeInline code={this.expressionText.split("(")[0] + "()"} /> prints a message but does not return a value. {this.#getDetail()}</p>
         }
         return <p><CodeInline code={this.expressionText.split("(")[0]} /> does not return a value. {this.#getDetail()}</p>
     }
 
     #getDetail() {
         switch (this.assignedNoneUsage) {
-            case usage.print:
+            case usage.print: // Check 21/1/2025
                 const extraPrint = this.funcPrints ? <>The <CodeInline code={`${this.expressionText.split("(")[0]}()`} /> function already prints a value when it is called so there is no need to pass the function call to <CodeInline code="print()" />.</> : <></>
                 return <>Passing <CodeInline code={this.expressionText} /> to the <CodeInline code="print()" /> function will print <CodeInline code="None" /> in the terminal. {extraPrint}</>
-            case usage.assignment:
-                const extraAssign = this.funcPrints ? <>If you were expecting {this.assignedNoneTarget !== "undefined" ? <CodeInline code={this.assignedNoneTarget} /> : "the variable"} to have the value currently printed to the terminal, then you 
-                can modify <CodeInline code={`${this.expressionText.split("(")[0]}()`}/>  to return the value instead of printing it.</> : <></>
-                return <>As a result, the value of <CodeInline code={this.expressionText} /> will be <CodeInline code="None" />, which means that {this.assignedNoneTarget !== "undefined" ? <CodeInline code={this.assignedNoneTarget} /> : "the variable it is assigned to"} will be <CodeInline code="None" /> too. {extraAssign}</>
-            
+            case usage.assignment: // Check 21/1/2025
+                const extraAssign = this.funcPrints ? <><p>One way to fix this is to  
+                edit <CodeInline code={`${this.expressionText.split("(")[0]}()`}/>  so that it returns the value instead of printing it.</p><p>Another option is to call <CodeInline code={`${this.expressionText.split("(")[0]}()`}/> without 
+                assigning it to a variable.</p></> : <></>
+                return <>This means the value of <CodeInline code={this.expressionText} /> will be <CodeInline code="None" /> so {this.assignedNoneTarget !== "undefined" ? <CodeInline code={this.assignedNoneTarget} /> : "the variable it is assigned to"} will be <CodeInline code="None" /> too. {extraAssign}</>
+            case usage.comparison: // check 21/1/2025
+                return <p>To fix this,  
+                edit <CodeInline code={`${this.expressionText.split("(")[0]}()`}/>  so that it returns the value instead of printing it.</p>
             case usage.functionArgument:
                 const extraPass = this.funcPrints ? <>If you were expecting {this.assignedNoneTarget !== "undefined" ? <CodeInline code={this.assignedNoneTarget} /> : "the argument"} to have the value currently printed to the terminal, then you 
                 can modify <CodeInline code={`${this.expressionText.split("(")[0]}()`}/> to return the value instead of printing it.</> : <></>
@@ -132,10 +139,39 @@ class PrintReturnAssignedNone extends PrintReturn {
         }
     }
 
-    #casePrintAssigned() { 
+    createExample() {
+        switch (this.assignedNoneUsage) {
+            case usage.print:
+                break;
+            case usage.assignment: // Checked 21/1/2025
+                return <>
+                    <h2>Example</h2>
+                    <p>Here is a similar example:</p>
+                    <CodeBlock code={['# Incorrect', '', 'def times_two(num):', '\tresult = num * 2', '\tprint(result)', '', '', 'double = times_two(5)']} />
+                    <p><CodeInline code="times_two()" /> prints but doesn&apos;t return so the value of <CodeInline code="double" /> will be <CodeInline code="None" />. Replacing the <CodeInline code="print()" /> with 
+                    a <CodeInline code="return" /> fixes the issue:</p>
+                    <CodeBlock code={['# Correct', '', 'def times_two(num):', '\tresult = num * 2', '\treturn result', '', '', 'double = times_two(5)']} />
+                </>
+            case usage.comparison: // Checked 21/1/2025
+                return <>
+                    <h2>Example</h2>
+                    <p>Here is a similar example:</p>
+                    <CodeBlock code={['# Incorrect', '', 'def times_two(num):', '\tresult = num * 2', '\tprint(result)', '', 'print(times_two(5) == 10)']} />
+                    <p><CodeInline code="times_two()" /> doesn&apos;t return so  <CodeInline code="print(times_two(5) == 10)" /> will print <CodeInline code="False" />. Replacing the <CodeInline code="print()" /> in 
+                    the function with a <CodeInline code="return" /> fixes the issue:</p>
+                    <CodeBlock code={['# Correct', '', 'def times_two(num):', '\tresult = num * 2', '\treturn result', '', 'print(times_two(5) == 10)']} />
+                </>
+            case usage.functionArgument:
+            case usage.return:
+            default:
+                return <></>
+        }
+    }
+
+    #casePrintAssigned() { // Checked 21/1/2025
         return <>
-            <h2>How to fix this?</h2>
-            <p>Currently, <CodeInline code="print()" /> is assigned to a variable, <CodeInline code={this.assignedNoneTarget} />. If you would like <CodeInline code={this.assignedNoneTarget} /> to 
+            <h2>Example</h2>
+            <p>In your code, <CodeInline code="print()" /> is assigned to a variable, <CodeInline code={this.assignedNoneTarget} />. If you would like <CodeInline code={this.assignedNoneTarget} /> to 
             store the text you have passed to <CodeInline code="print()" />, assign the text to <CodeInline code={this.assignedNoneTarget} /> in a separate statement e.g.:</p>
             <CodeBlock code={`${this.assignedNoneTarget} = "Your text"`}></CodeBlock>
             <p>If you would also like to print the text to the terminal, you can print the variable on another line e.g.:</p>
@@ -146,14 +182,14 @@ class PrintReturnAssignedNone extends PrintReturn {
             <h2>More detail</h2>
             <p>Run the code below:</p>
             <MiniIDE startingCode={`${this.assignedNoneTarget} = print("Hello, World!")\nprint(${this.assignedNoneTarget})`} />
-            <p>Notice that the code above produces two lines of output: the text passed to <CodeInline code="print()" /> and <CodeInline code="None" />. 
-            The first line is printed by the call to <CodeInline code="print()" /> on line 1. The second line is produced by the code on line 2, which prints the 
-            value of the variable <CodeInline code={this.assignedNoneTarget} />. This variable will always have the value <CodeInline code="None" />. no matter what text is passed to <CodeInline code="print()" />. 
-            This is because <CodeInline code="print()" /> does not actually return a value, even though you can see its output in the terminal. Try changing the text 
+            <p>You should see two lines of output: "Hello, World!" and "None". 
+            The first line is printed by <CodeInline code="print()" /> on line 1. The second line is printed by the code on line 2, which prints the 
+            value of <CodeInline code={this.assignedNoneTarget} />. This variable will always have the value <CodeInline code="None" />, no matter what text is passed to <CodeInline code="print()" />. 
+            This is because <CodeInline code="print()" /> does not return a value even though you can see its output in the terminal. Try changing the text 
             passed to <CodeInline code="print()" /> in line 1 and running the code again. You will see that the second line of output in the terminal will still be <CodeInline code="None" />.</p>
             <p>Now run this revised code:</p>
             <MiniIDE startingCode={`${this.assignedNoneTarget} = "Hello, World!"\nprint(${this.assignedNoneTarget})`} />
-            <p>You will see that it still prints the text to the terminal but it no longer produces the extra line, <CodeInline code="None" />.</p>
+            <p>You will see that it still prints the text to the terminal but it no longer prints the extra line, <CodeInline code="None" />.</p>
             <p>Lastly, if you don&apos;t need to save the text to use it elsewhere, you can just print the text directly. Run the code below. You will 
                 see that it has the same output as the previous version.
             </p>
@@ -161,24 +197,20 @@ class PrintReturnAssignedNone extends PrintReturn {
         </>
     }
 
+    // Checked 21/1/2025
     #caseNotPrintAssigned() {
         return <>
-            <h2>How to fix this?</h2>
-            <p>Currently, <CodeInline code={this.expressionText} /> is assigned to a variable, <CodeInline code={this.assignedNoneTarget} />. The value 
-            of <CodeInline code={this.assignedNoneTarget} /> will always be <CodeInline code="None" /> because <CodeInline code={this.expressionText} /> does not 
-            return a value. You have two choices: (1) modify <CodeInline code={`${this.expressionText.split("(")[0]}()`} /> so that 
-            it returns a value, or (2) call <CodeInline code={`${this.expressionText.split("(")[0]}()`} /> without assigning it to a variable.</p>
+            <h2>Try it out</h2>
             <p>Read and run the code below:</p>
-            <MiniIDE startingCode={['def check_password_length(pwd):', '\tif len(pwd) < 5:', '\t\tprint("Too short!")', '\telse:', '\t\tprint("Valid length")', '', 'result = check_password_length("12345")','if not result:','\tprint("Your password is not valid")']} />
-            <p>The <CodeInline code="check_password_length()" /> function checks if the supplied password is a valid length (at least 5 characters). It does not return anything 
-            but it does print a message to the terminal. If you ran the code, you will see that two statements are printed: &quot;Valid length&quot; and &quot;Your password is not valid&quot;. The 
-            problem lies on line 7, where the function call is assigned to the variable <CodeInline code="result" />. The function has no return statement so the value 
-            of <CodeInline code="result" /> will always be <CodeInline code="None" />. This causes the code in the if statement beginning on line 8 to run no matter what is passed 
-            to the <CodeInline code="check_password_length()" /> function because Python will treat <CodeInline code="None" /> as equivalent to <CodeInline code="False" />.</p>
+            <MiniIDE startingCode={['# Incorrect', '', 'def check_password_length(pwd):', '\tif len(pwd) < 5:', '\t\tprint("Too short!")', '\telse:', '\t\tprint("Valid length")', '', 'result = check_password_length("12345")', 'print(result)']} />
+            <p>The <CodeInline code="check_password_length()" /> function does not return anything 
+            but it does print a message. When the code runs, two statements are printed: &quot;Valid length&quot; and &quot;None&quot;. The 
+            problem is on line 7, where the function call is assigned to <CodeInline code="result" />. The function has no return so the value 
+            of <CodeInline code="result" /> will be <CodeInline code="None" />. </p>
             <h3>Option 1</h3>
-            <p>In this example, the best way to improve the code is to modify <CodeInline code="check_password_length()" /> to return a Boolean (<CodeInline code="True" /> or <CodeInline code="False" />) instead 
-            of printing. The rest of the code can then decide what to print based on the value returned by the function:</p>
-            <MiniIDE startingCode={['def check_password_length(pwd):', '\tif len(pwd) < 5:', '\t\treturn False', '\telse:', '\t\treturn True', '', 'result = check_password_length("12345")','if not result:','\tprint("Your password is not valid")']} />
+            <p>The best way to improve the code is to modify <CodeInline code="check_password_length()" /> to return a Boolean (<CodeInline code="True" /> or <CodeInline code="False" />) instead 
+            of printing:</p>
+            <MiniIDE startingCode={['def check_password_length(pwd):', '\tif len(pwd) < 5:', '\t\treturn False', '\telse:', '\t\treturn True', '', 'result = check_password_length("12345")','print(result)']} />
             <h3>Option 2</h3>
             <p>Another way to improve the code is to keep the function as it was and call it without assigning it to a variable. The downside of this approach is that the result of the 
                 length check cannot be used anywhere else in the code:
@@ -187,31 +219,40 @@ class PrintReturnAssignedNone extends PrintReturn {
         </>
     }
 
+    // Checked 21/1/2025
+    #caseNotPrintComparison() {
+        return <>
+            <h2>Try it out</h2>
+            <p>Read and run the code below:</p>
+            <MiniIDE startingCode={['# Incorrect', '', 'def get_last_letter(word):', '\tlast_letter = word[-1]', '\tprint(last_letter)', '', 'print(get_last_letter("apple") == "e")']} />
+            <p>The <CodeInline code="get_last_letter()" /> function does not return anything 
+            but it does print a message. When the code runs, two statements are printed: &quot;e&quot; and &quot;None&quot;. The 
+            problem is on line 7, which checks if the value returned by the function is "e". The function has no return so this comparison will be <CodeInline code="False" />. </p>
+            <p>The best way to improve the code is to modify <CodeInline code="get_last_letter()" /> to return the last letter instead 
+            of printing:</p>
+            <MiniIDE startingCode={['# Correct', '', 'def get_last_letter(word):', '\tlast_letter = word[-1]', '\treturn last_letter', '', 'print(get_last_letter("apple") == "e")']} />
+        </>
+    }
+
     #casePrintPassed() {
         return <>
             <h2>How to fix this?</h2>
-            <p>If the printed text is needed by an argument in the function you have passed it to, pass just the text instead of 
-                the <CodeInline code="print" /> function. If the text is not needed in the function, you may be able to remove 
-                the argument. If you need to print the message as well as passing it to the function, you will need to print it 
-                on a separate line of code.
+            <p>Try passing just the text that is printed instead of 
+                the <CodeInline code="print" /> function.
             </p>
             <h2>More detail</h2>
-            <p>Read the code below. The programmer&apos;s intention is to write a function that creates a greeting message. The 
-                function is correct—it uses the argument, <CodeInline code="name" />, to create a string message and return it. However, 
-                they have made a mistake when calling <CodeInline code="greeting()" /> on line 5.
+            <p>Read the code below. There is a mistake when calling <CodeInline code="greeting()" /> on line 5.
             </p>
             <MiniIDE startingCode={['def greeting(name):', '\tmessage = "Hello, " + name', '\treturn message', '', 'greeting(print("Test"))']} />
-            <p>If you run the code, you will see two lines of output: &quot;Test&quot; and an error message. The error message occurs because the 
-                value passed to <CodeInline code="greeting()" /> becomes the value of the argument <CodeInline code="name" />. The programmer has 
-                passed the built-in <CodeInline code="print()" /> function, which does not return a value. This means the value 
-                of <CodeInline code="name" /> becomes <CodeInline code="None" />. On line 2, Python doesn&apos;t know how to combine a 
+            <p>If you run the code, you will see two lines of output: &quot;Test&quot; and an error message. The error occurs because 
+                the <CodeInline code="print()" /> function is passed to <CodeInline code="greeting()" />. This means the value 
+                of <CodeInline code="name" /> is <CodeInline code="None" />. On line 2, Python doesn&apos;t know how to combine a 
                 string, <CodeInline code='"Hello, "' />, with <CodeInline code="None" />, which causes the error message.
             </p>
-            <p>To fix the error message, the programmer should pass something with a value (specifically, a string) to <CodeInline code="greeting()" /> as 
+            <p>To fix the error message, pass the string directly to <CodeInline code="greeting()" /> as 
             shown below:</p>
             <MiniIDE startingCode={['def greeting(name):', '\tmessage = "Hello, " + name', '\treturn message', '', 'greeting("Test")']} />
-            <p>Now the code runs without error but it no longer prints the message returned by <CodeInline code="greeting()" />. The following 
-            example shows how to test the function by printing the message it returns:</p>
+            <p>Now the code runs without error but it no longer prints the message returned by <CodeInline code="greeting()" />. Here is how to test the function by printing the message it returns:</p>
             <MiniIDE startingCode={['def greeting(name):', '\tmessage = "Hello, " + name', '\treturn message', '', 'print(greeting("Test"))', 'print(greeting("Abc"))', 'print(greeting("friend"))']} />
         </>
     }
@@ -226,7 +267,7 @@ class PrintReturnAssignedNone extends PrintReturn {
                     printed because <CodeInline code="format_name()" /> prints the formatted name on line 2. &quot;Hello None&quot; is printed by <CodeInline code="greeting()" /> on 
                     line 5. The name is &quot;None&quot; because <CodeInline code="formatted" /> is <CodeInline code="None" /> because <CodeInline code="format_name()" /> doesn&apos;t return anything.
                 </p>
-                <p>In this example, an appropriate fix is to modify <CodeInline code="format_name()" /> so that it returns the formatted name instead of printing it:</p>
+                <p>This can be fixed by editing <CodeInline code="format_name()" /> to returns the formatted name instead of printing it:</p>
                 <MiniIDE startingCode={[`def format_name(name):`, `\treturn name.capitalize()`, '', 'def greeting(name):', '\tprint("Hello", name)', '', 'name = input("What\'s your name? ")', 'formatted = format_name(name)', 'greeting(formatted)']} />
             </>
         }
@@ -260,8 +301,8 @@ class PrintReturnAssignedNone extends PrintReturn {
     #casePrintReturn() {
         return <>
             <h2>How to fix this?</h2>
-            <p>Separate printing and returning. If your function should <em>return</em> a value that can be used by code that calls your function then 
-            you can remove the call to <CodeInline code="print()" /> and directly return the value currently passed to <CodeInline code="print()" />. If you 
+            <p>Separate printing and returning. If your function should <em>return</em> a value that can be used outside of the function then 
+            you can remove the <CodeInline code="print()" /> and directly return the value currently passed to <CodeInline code="print()" />. If you 
             still want to print the returned value, you can call your function and pass the result to <CodeInline code="print()" /> elsewhere in your code.</p>
             <p>If your function just needs to print a message and does not need to return a value, then you can remove <CodeInline code="return" />.</p>
             <h2>More detail</h2>
@@ -269,13 +310,10 @@ class PrintReturnAssignedNone extends PrintReturn {
             calls the function. To see why, run the code below.</p>
             <MiniIDE startingCode={['def check_password_length(pwd):', '\tif len(pwd) < 8:', '\t\treturn print("invalid")', '\telse:', '\t\treturn print("valid")', '', 'result = check_password_length("123")','print("Your password choice is", result)']} />
             <p>This code prints two lines to the terminal. The first line is the message printed by one of the function&apos;s return statements and 
-                the second line says &quot;Your password choice is None&quot;. You can probably guess that the purpose of the <CodeInline code="check_password_length()" /> function 
-                is to check if a string is long enough to be a valid password, and that the programmer&apos;s intention was to print a message stating that 
-                the chosen password is either invalid or valid. However, the function always returns <CodeInline code="print()" />, which has no value, so the 
+                the second line says &quot;Your password choice is None&quot;. This happens because the function always returns <CodeInline code="print()" />, which has no value, so the 
                 value assigned to <CodeInline code="result" /> on line 7 will be <CodeInline code="None" /> no matter what is passed to <CodeInline code='check_password_length()' />.
             </p>
-            <p>This issue can be fixed by making sure the function always returns a value, rather than <CodeInline code="None" />. To do this, remove the call 
-            to <CodeInline code="print()" /> from the return statements and return a string instead:</p>
+            <p>This issue can be fixed by making sure the function always returns a value, rather than <CodeInline code="None" />. To do this, remove <CodeInline code="print()" /> from the return statements and return a string instead:</p>
             <MiniIDE startingCode={['def check_password_length(pwd):', '\tif len(pwd) < 8:', '\t\treturn "invalid"', '\telse:', '\t\treturn "valid"', '', 'result = check_password_length("123")','print("Your password choice is", result)']} />
         </>
     }
@@ -292,20 +330,23 @@ class PrintReturnAssignedNone extends PrintReturn {
         return <></>
     }
 
+    // Checked 21/1/2025
     #casePrinted() {
         return <>
             <h2>How to fix this?</h2>
-            <p>Call the function as a standalone expression, not from inside <CodeInline code="print()" />.</p>
+            <p>Call the function by itself, not from inside <CodeInline code="print()" />.</p>
             <p>Here is an example of code with a similar issue:</p>
-            <MiniIDE startingCode={[`def greeting(name):`, `\tprint("Hello", name)`, '', 'print(greeting("Elmo"))']} />
+            <MiniIDE startingCode={['# Incorrect', '', `def greeting(name):`, `\tprint("Hello", name)`, '', 'print(greeting("Elmo"))']} />
             <p>Run the code. Notice that the output shows &quot;Hello Elmo&quot;, which is printed by the <CodeInline code="greeting()" /> function. However, it also prints &quot;None&quot; on the next 
-            line. This is caused by <CodeInline code="print()" /> on line 4. Because <CodeInline code="greeting()" /> doesn&apos;t return anything, the value passed to <CodeInline code="print()" /> on 
-            line 4 is <CodeInline code="None" />.</p>
+            line. <CodeInline code="greeting()" /> doesn&apos;t return anything so the <CodeInline code="print()" /> on line 4 
+            is <CodeInline code="None" />.</p>
+            <h3>Option 1</h3>
             <p>Fix the problem by removing the extra <CodeInline code="print()" /> on line 4:</p>
-            <MiniIDE startingCode={[`def greeting(name):`, `\tprint("Hello", name)`, '', 'greeting("Elmo")']} />
+            <MiniIDE startingCode={['# Correct', '', `def greeting(name):`, `\tprint("Hello", name)`, '', 'greeting("Elmo")']} />
+            <h3>Option 2</h3>
             <p>Another option is to modify <CodeInline code="greeting()" /> so that it returns a value instead of printing. This would make the function more flexible and easier 
             to reuse:</p>
-            <MiniIDE startingCode={[`def greeting(name):`, `\treturn "Hello " + name`, '', 'print(greeting("Elmo"))']} />
+            <MiniIDE startingCode={['# Correct', '', `def greeting(name):`, `\treturn "Hello " + name`, '', 'print(greeting("Elmo"))']} />
         </>
     }
 
@@ -325,9 +366,11 @@ class PrintReturnAssignedNone extends PrintReturn {
             }
         } else {
             switch (this.assignedNoneUsage) {
-                case usage.assignment:
+                case usage.assignment: // Checked
                     return this.#caseNotPrintAssigned();
-                case usage.print:
+                case usage.comparison: // Checked
+                    return this.#caseNotPrintComparison();
+                case usage.print: // Checked
                     return this.#casePrinted();
                 case usage.functionArgument:
                     return this.#caseNotPrintPassed();
@@ -341,30 +384,23 @@ class PrintReturnAssignedNone extends PrintReturn {
     /**
      * Built in
      * It's the print function - interactive example with matching structure
-     * - Assigned to a variable - group1/S075/HW1/bikes message=print() - checked
+     * - Assigned to a variable - group1/S75/HW1/bikes
      * - Printed - seems unlikely - no example - ignore
      * - Passed as an argument - interactive example - checked
      * - Comparison - interactive example - checked
      * - Calculation - interactive example - checked
-     * - Return - interactive example - group2/S110/HW1/swimstats - checked
+     * - Return - interactive example - 
      * It's not the print function - direct the student to look up the function in the docs*/
 
     /* 
     UDF
     If isFuncPrintNoReturn - interactive example demonstrating the type of a demo function (function prints, doesn't return)
-    * - Assigned - group3/S30/HW6/recipe - checked
-    * - Printed - group1/S02/HW4/lightrail - checked, group1/S04/HW1/bikes - checked
-    * - Passed - checked
-    * - Comparison - group1/S02/HW4/lightrail - checked
+    * - Assigned - group1/S002/HW4/lightrail - checked (first two cases)
+    * - Printed - group1/S004/HW1/bikes - checked
+    * - Passed - 
+    * - Comparison - group1/S002/HW4/lightrail - checked (tests)
     * - Calculation - checked
-    * - Return - group2/S101/HW2/piglatin  - checked
-    * If UDF doesn't print:
-    *  - assigned - checked
-    *  - printed - checked
-    *  - passed - checked
-    *  - comparison - checked
-    *  - calculation - checked
-    *  - return - checked
+    * - Return - group2/S101/HW2/piglatin
     * */
     
 }
@@ -383,16 +419,21 @@ class PrintReturnUnusedReturn extends PrintReturn {
 
     createHelpSummary() {
         if (this.expressionType === expressionType.builtInFunction) {
-            return <p><CodeInline code={this.expressionText + "()"} /> is a Python function that returns a value but that value is not 
-            saved or used when the function is called, so the result of the call will be lost. Look up <CodeInline code={this.expressionText + "()"} /> in 
+            return <p><CodeInline code={this.expressionText + "()"} /> returns a value but that value is not 
+            used when the function is called, so it will be lost. Look up <CodeInline code={this.expressionText + "()"} /> in 
             the docs to see examples of how to use it.</p>
         } else if (this.isPrintsAndReturns) {
             return <p>The <CodeInline code={this.expressionText + "()"} /> function returns a value and prints to the terminal. If the return 
-            value is not used by calling code, then the return statement can be deleted—the function will still print. If you would like to 
-            print AND return, then it is better practice to print the returned value from outside the function.</p>
+            value is not needed, then the return can be deleted—the function will still print. If you would like to 
+            print AND return, then it is better to print the returned value from outside the function.</p>
         }
         return <p>The <CodeInline code={this.expressionText + "()"} /> function returns a value but that value is not 
         saved or used when the function is called, so the result of the call will be lost.</p>
+    }
+
+    createExample() {
+        return <>
+        </>
     }
 
     #printAndReturn() {
@@ -402,23 +443,19 @@ class PrintReturnUnusedReturn extends PrintReturn {
             <MiniIDE startingCode={['def is_valid_password(pwd):','\tif len(pwd) > 3 and pwd != "123456":',
                                     '\t\tprint("Your password is valid!")','\t\treturn True','\telse:',
                                     '\t\tprint("Not a valid password!")','\t\treturn False','',
-                                    'password = input("Choose a password: ")', 'is_valid_password(password)',
-                                    'if not is_valid_password(password):','\tpassword = input("Please try again: ")']} />
-            <p>Notice that <CodeInline code="is_valid_password()" /> prints a message to the terminal before returning a 
-            value. The function is called on line 10 but the value is not saved to a variable, so it is lost. The function is called 
-            again on line 11 but this time the return value is used in an if statement. If you run the code, you will see that 
-            the same message is printed twice, once each time the function is called.</p>
+                                    'password = input("Choose a password: ")', 'is_valid_password(password)']} />
+            <p><CodeInline code="is_valid_password()" /> prints a message before returning a 
+            value. The function is called on line 10 but the value is not saved to a variable, so it is lost.</p>
             <p><CodeInline code="is_valid_password()" /> is trying to do two things at once: (1) print a message for 
-            the user that lets them know if their chosen password is valid, and (2) return a value so that calling code can decide 
-            whether to prompt the user to try again. The code can be improved by making sure <CodeInline code="is_valid_password()" /> only 
-            does one thing. In this case, the best approach is to remove the print statement from the function. Calling code can then 
+            the user, and (2) return a value. The code can be improved by making sure <CodeInline code="is_valid_password()" /> only 
+            does one thing. The best approach is to remove the print statement from the function. The rest of the code can  
             decide what to print depending on the returned value:</p>
             <MiniIDE startingCode={['def is_valid_password(pwd):','\tif len(pwd) > 3 and pwd != "123456":',
                                     '\t\treturn True','\telse:',
                                     '\t\treturn False','',
                                     'password = input("Choose a password: ")', 'check = is_valid_password(password)',
                                     'if check:', '\tprint("Your password is valid!")',
-                                    'else:','\tpassword = input("Not a valid password! Please try again: ")']} />
+                                    'else:','\tprint("Your password is invalid!")']} />
         </>
     }
 
@@ -481,6 +518,7 @@ export default function PrintSameAsReturn({misconInfo}) {
     return <>
         { misconInstance.createHeading() }
         { misconInstance.createHelpSummary() }
+        { misconInstance.createExample() }
         {/*
             printReturn.isAssignedNone() && printReturn.assignedNoneType === expressionType.userDefinedFunction &&
                 getUDFHelp()
