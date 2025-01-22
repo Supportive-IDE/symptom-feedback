@@ -1,5 +1,5 @@
 "use client";
-import { ASSIGN_COMPARES, COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FUNCTION_CALL_NO_PARENS, LOCAL_VARS_ARE_GLOBAL, MAP_BOOLEAN_TO_IF, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, RETURN_CALL, TYPE_SPECIFIED, UNUSED_RETURN } from "./config";
+import { ASSIGN_COMPARES, COLON_ASSIGNS, COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FUNCTION_CALL_NO_PARENS, LOCAL_VARS_ARE_GLOBAL, MAP_BOOLEAN_TO_IF, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, RETURN_CALL, TYPE_SPECIFIED, UNUSED_RETURN } from "./config";
 import CompareMultipleWithOr from "./feedback/compareMultipleWithOr";
 import ConditionalIsSequence from "./feedback/conditionalIsSequence";
 import DeferredReturn from "./feedback/deferredReturn";
@@ -12,9 +12,9 @@ import TypeMustBeSpecified from "./feedback/typeMustBeSpecified";
 import UnusedReturn from "./feedback/unusedReturn";
 import ReturnCall from "./feedback/returnCall";
 import AssignCompares from "./feedback/assignCompares";
+import ColonAssigns from "./feedback/colonAssigns";
 import MiniIDE from "./miniIDE";
 import styles from "./page.module.css";
-import Repl from "./repl";
 import { useSearchParams } from "next/navigation";
 
 export default function Home() {
@@ -25,6 +25,8 @@ export default function Home() {
                 switch (searchParams.get(MISCON)) {
                     case ASSIGN_COMPARES:
                         return <AssignCompares misconInfo={searchParams} />
+                    case COLON_ASSIGNS:
+                        return <ColonAssigns misconInfo={searchParams} />
                     case COMPARE_MULTIPLE_WITH_OR:
                         return <CompareMultipleWithOr misconInfo={searchParams} />
                     case CONDITIONAL_SEQUENCE:

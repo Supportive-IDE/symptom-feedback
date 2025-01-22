@@ -5,7 +5,6 @@ import MiniIDE from "../miniIDE";
 
 export default function AssignCompares({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
-    const comparisonText = misconInfo.has("text") ? misconInfo.get("text") : "";
     const parentText = misconInfo.has("parentText") ? misconInfo.get("parentText") : ""
 
     // CHECK TYPES OF EXPRESSION if, elif, while - create function to use appropriate wording e.g. AN if STATEMENT, vs A while LOOP
