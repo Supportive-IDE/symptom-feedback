@@ -8,6 +8,7 @@ const funcTypeParam = "funcType";
 const funcExpectedArgsParam = "funcExpectedArgs";
 const undefinedVarParam = "matchesUndefinedVarOnLine";
 
+// Also used for ParenthesesOnlyIfArgument
 export default function FunctionCallsNoParentheses({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
     const funcName = misconInfo.has(funcNameParam) ? misconInfo.get(funcNameParam) : "";

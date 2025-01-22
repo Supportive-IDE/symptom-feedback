@@ -1,5 +1,5 @@
 "use client";
-import { COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FUNCTION_CALL_NO_PARENS, LOCAL_VARS_ARE_GLOBAL, MAP_BOOLEAN_TO_IF, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, TYPE_SPECIFIED, UNUSED_RETURN } from "./config";
+import { COMPARE_MULTIPLE_WITH_OR, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FUNCTION_CALL_NO_PARENS, LOCAL_VARS_ARE_GLOBAL, MAP_BOOLEAN_TO_IF, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, RETURN_CALL, TYPE_SPECIFIED, UNUSED_RETURN } from "./config";
 import CompareMultipleWithOr from "./feedback/compareMultipleWithOr";
 import ConditionalIsSequence from "./feedback/conditionalIsSequence";
 import DeferredReturn from "./feedback/deferredReturn";
@@ -10,6 +10,7 @@ import ParamMustBeAssignedInFunction from "./feedback/parameterMustBeAssignedInF
 import PrintSameAsReturn from "./feedback/printSameAsReturn";
 import TypeMustBeSpecified from "./feedback/typeMustBeSpecified";
 import UnusedReturn from "./feedback/unusedReturn";
+import ReturnCall from "./feedback/returnCall";
 import MiniIDE from "./miniIDE";
 import styles from "./page.module.css";
 import Repl from "./repl";
@@ -42,10 +43,12 @@ export default function Home() {
                         return <TypeMustBeSpecified misconInfo={searchParams} />
                     case UNUSED_RETURN:
                         return <UnusedReturn misconInfo={searchParams} />
+                    case RETURN_CALL:
+                        return <ReturnCall misconInfo={searchParams} />
                     default:
                         return <>
                             <p>Nothing here... Here&apos;s an editor to play with:</p>
-                            <MiniIDE startingCode="" />
+                            <MiniIDE startingCode="print('Hello, World')" />
                         </>
                 }})()
             }
