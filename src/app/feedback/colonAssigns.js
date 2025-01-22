@@ -9,7 +9,6 @@ export default function ColonAssigns({misconInfo}) {
     const variableName = misconInfo.has("variableName") ? <CodeInline code={misconInfo.get("variableName")} /> : "a variable";
     const assignedValue = misconInfo.has("assignedValue") ? <CodeInline code={misconInfo.get("assignedValue")} /> : "a value";
 
-    // CHECK TYPES OF EXPRESSION if, elif, while - create function to use appropriate wording e.g. AN if STATEMENT, vs A while LOOP
     return <>
         <h1>Use <CodeInline code="=" /> to assign a value to a variable</h1>
         <p>It looks like you are trying to assign {assignedValue} to {variableName} on line {lineNumber}.</p>
