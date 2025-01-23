@@ -1,3 +1,4 @@
+import { getParamValue } from "../../utils";
 import CodeBlock from "../codeBlock";
 import CodeInline from "../codeInline";
 import { LINE_NUMBER } from "../config";
@@ -5,9 +6,9 @@ import MiniIDE from "../miniIDE";
 
 export default function ReturnCall({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
-    const returnStatement = misconInfo.has("text") ? misconInfo.get("text") : ""
-    const returnValueType = misconInfo.has("returnValueType") ? misconInfo.get("returnValueType") : "";
-    const returnValueText = misconInfo.has("returnValueText") ? <CodeInline code={misconInfo.get("returnValueText")} /> : <CodeInline code="'''Oops! Missing value!'''" />
+    const returnStatement = getParamValue("text", "", misconInfo);
+    const returnValueType = getParamValue("returnValueType", "", misconInfo);
+    const returnValueText = <CodeInline code={getParamValue("returnValueText", "", misconInfo)} />;
 
     return <>
         <h1><CodeInline code="return" /> does not need <CodeInline code="()" /></h1>

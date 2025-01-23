@@ -1,3 +1,4 @@
+import { getParamValue } from "../../utils";
 import CodeBlock from "../codeBlock";
 import CodeInline from "../codeInline";
 import { LINE_NUMBER } from "../config";
@@ -5,8 +6,8 @@ import MiniIDE from "../miniIDE";
 
 export default function IterationRequiresTwoLoops({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
-    const outerLoopText = misconInfo.has("outerLoopText") ? misconInfo.get("outerLoopText") : "";
-    const loopVariable = misconInfo.has("outerLoopVariable") ? <CodeInline code={misconInfo.get("outerLoopVariable")} /> : "";
+    const outerLoopText = getParamValue("outerLoopText", "", misconInfo);
+    const loopVariable = getParamValue("outerLoopVariable", "", misconInfo);
     const modifiedLoopTypes = misconInfo.getAll("modifiedInType");
     const modifiedInStartLines = misconInfo.getAll("modifiedInStartLine");
 

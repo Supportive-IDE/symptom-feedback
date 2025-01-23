@@ -1,3 +1,4 @@
+import { getParamValue } from "../../utils";
 import CodeBlock from "../codeBlock";
 import CodeInline from "../codeInline";
 import { LINE_NUMBER } from "../config";
@@ -5,7 +6,8 @@ import MiniIDE from "../miniIDE";
 
 export default function ForLoopVarIsLocal({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
-    const loopVariable = misconInfo.has("loopVariable") ? <CodeInline code={misconInfo.get("loopVariable")} /> : "the loop variable";
+    let loopVariable = getParamValue("loopVariable", "", misconInfo);
+    loopVariable = loopVariable !== "" ? <CodeInline code={loopVariable} /> : "the loop variable";
     const forDefinition = misconInfo.has("forDefinition") ? misconInfo.get("forDefinition") : "";
     const overwrittenVarLine = misconInfo.has("overwrittenVarLine") ? Number(misconInfo.get("overwrittenVarLine")) : -1;
     const overwrttenIsDefinition = misconInfo.has("overwrittenIsDefinition") ? misconInfo.get("overwrittenIsDefinition") == "true" : false;

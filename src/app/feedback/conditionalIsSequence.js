@@ -2,6 +2,7 @@ import CodeInline from "../codeInline";
 import CodeBlock from "../codeBlock";
 import { LINE_NUMBER } from "../config";
 import MiniIDE from "../miniIDE";
+import { getParamValue } from "../../utils";
 
 /** URL params */
 const fullTextParam = "fullText";
@@ -40,7 +41,7 @@ const getIfs = (lines, firstLine, ifLines) => {
 export default function ConditionalIsSequence({misconInfo}) {
 
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
-    const fullText = misconInfo.has(fullTextParam) ? misconInfo.get(fullTextParam) : "";
+    const fullText = getParamValue(fullTextParam, "", misconInfo);
     const fullTextFormatted = trimSpaces(fullText);
     const ifStatementLineNumbers = misconInfo.getAll(statementLineParam); // will be strings
     const ifs = getIfs(fullTextFormatted, lineNumber, ifStatementLineNumbers);

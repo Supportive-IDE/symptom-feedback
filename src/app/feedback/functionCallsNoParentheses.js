@@ -1,3 +1,4 @@
+import { getParamValue } from "../../utils";
 import CodeInline from "../codeInline";
 import { LINE_NUMBER } from "../config";
 import MiniIDE from "../miniIDE";
@@ -11,10 +12,10 @@ const undefinedVarParam = "matchesUndefinedVarOnLine";
 // Also used for ParenthesesOnlyIfArgument
 export default function FunctionCallsNoParentheses({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
-    const funcName = misconInfo.has(funcNameParam) ? misconInfo.get(funcNameParam) : "";
-    const funcType = misconInfo.has(funcTypeParam) ? misconInfo.get(funcTypeParam): "";
-    const funcExpectedArgs = misconInfo.has(funcExpectedArgsParam) ? misconInfo.get(funcExpectedArgsParam) : ""; // Will be a string
-    const undefinedVarOnLine = misconInfo.has(undefinedVarParam) ? Number(misconInfo.get(undefinedVarParam)) : -1;
+    const funcName = getParamValue(funcNameParam, "", misconInfo);
+    const funcType = getParamValue(funcTypeParam, "", misconInfo);
+    const funcExpectedArgs = getParamValue(funcExpectedArgsParam, "", misconInfo); 
+    const undefinedVarOnLine = Number(getParamValue(undefinedVarParam, "-1", misconInfo));
 
     return <>
         <h1>Add <CodeInline code="()" /> after <CodeInline code={funcName} /> to call the function</h1>

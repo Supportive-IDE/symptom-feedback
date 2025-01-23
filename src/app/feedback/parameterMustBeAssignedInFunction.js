@@ -1,11 +1,13 @@
 import CodeInline from "../codeInline";
 import MiniIDE from "../miniIDE";
 import { LINE_NUMBER } from "../config";
+import { getParamValue } from "../../utils";
 
 export default function ParamMustBeAssignedInFunction({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)): -1;
-    const paramName = misconInfo.has("paramName") ? misconInfo.get("paramName") : "";
-    const functionName = misconInfo.has("functionName") && misconInfo.get("functionName").length > 0 ? <CodeInline code={misconInfo.get("functionName") + "()"} /> : "the function";
+    const paramName = getParamValue("paramName", "", misconInfo);
+    let functionName = getParamValue("functionName", "", misconInfo);
+    functionName = functionName !== "" ? <CodeInline code={functionName + "()"} /> : "the function";
     // paramName
     return <>
         <h1>The value of {paramName !== "" ? <>the argument <CodeInline code={paramName} ></CodeInline></> : "an argument"} is replaced before it can be used</h1>

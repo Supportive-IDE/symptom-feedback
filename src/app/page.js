@@ -1,5 +1,5 @@
 "use client";
-import { ASSIGN_COMPARES, COLON_ASSIGNS, COMPARE_MULTIPLE_WITH_OR, COMPARISON_WITH_BOOL_LITERAL, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FOR_LOOP_VAR_IS_LOCAL, FUNCTION_CALL_NO_PARENS, ITERATION_REQUIRES_TWO_LOOPS, LOCAL_VARS_ARE_GLOBAL, MAP_BOOLEAN_TO_IF, MAP_BOOLEAN_TO_TERNARY, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, RETURN_CALL, TARGET_OUTSIDE_LOOP, TYPE_SPECIFIED, UNUSED_RETURN, WHILE_SAME_AS_IF } from "./config";
+import { ASSIGN_COMPARES, COLON_ASSIGNS, COMPARE_MULTIPLE_WITH_OR, COMPARISON_WITH_BOOL_LITERAL, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FOR_LOOP_VAR_IS_LOCAL, FUNCTION_CALL_NO_PARENS, ITERATION_REQUIRES_TWO_LOOPS, LOCAL_VARS_ARE_GLOBAL, LOOP_COUNTER, MAP_BOOLEAN_TO_IF, MAP_BOOLEAN_TO_TERNARY, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, RETURN_CALL, TARGET_OUTSIDE_LOOP, TYPE_SPECIFIED, UNUSED_RETURN, WHILE_SAME_AS_IF } from "./config";
 import CompareMultipleWithOr from "./feedback/compareMultipleWithOr";
 import ConditionalIsSequence from "./feedback/conditionalIsSequence";
 import DeferredReturn from "./feedback/deferredReturn";
@@ -18,6 +18,7 @@ import ForLoopVarIsLocal from "./feedback/forLoopVarIsLocal";
 import MapToBooleanWithTernaryOperator from "./feedback/mapToBooleanWithTernaryOperator";
 import ComparisonWithBoolLiteral from "./feedback/comparisonWithBoolLiteral";
 import IterationRequiresTwoLoops from "./feedback/iterationRequiresTwoLoops";
+import LoopCounter from "./feedback/loopCounter";
 import MiniIDE from "./miniIDE";
 import styles from "./page.module.css";
 import { useSearchParams } from "next/navigation";
@@ -50,6 +51,8 @@ export default function Home() {
                         return <IterationRequiresTwoLoops misconInfo={searchParams} />
                     case LOCAL_VARS_ARE_GLOBAL:
                         return <LocalVariablesAreGlobal misconInfo={searchParams} />
+                    case LOOP_COUNTER:
+                        return <LoopCounter misconInfo={searchParams} />
                     case MAP_BOOLEAN_TO_IF:
                         return <MapToBooleanWithIf misconInfo={searchParams} />
                     case MAP_BOOLEAN_TO_TERNARY:

@@ -1,3 +1,4 @@
+import { getParamValue } from "../../utils";
 import CodeBlock from "../codeBlock";
 import CodeInline from "../codeInline";
 import MiniIDE from "../miniIDE";
@@ -35,11 +36,13 @@ const trimSpaces = text => {
 
 
 export default function MapToBooleanWithIf({misconInfo}) {
-    const text = misconInfo.has(textParam) ? misconInfo.get(textParam) : "";
+    const text = getParamValue(textParam, "", misconInfo);
     const textFormatted = trimSpaces(text);
-    const form = misconInfo.has(formParam) ? misconInfo.get(formParam) : "";
-    const varAssigned = misconInfo.has(varAssignedParam) ? <CodeInline code={misconInfo.get(varAssignedParam)} /> : "the variable";
-    const condition = misconInfo.has(conditionParam) ? <CodeInline code={misconInfo.get(conditionParam)} />: "the condition";
+    const form = getParamValue(formParam, "", misconInfo);
+    let varAssigned = getParamValue(varAssignedParam, "", misconInfo);
+    varAssigned = varAssigned !== "" ? <CodeInline code={varAssigned} /> : "the variable";
+    let condition = getParamValue(conditionParam, "", misconInfo);
+    condition = condition !== "" ? <CodeInline code={condition} /> : "the condition";
 
     const returnedOverviewExample = () => {
         return <>

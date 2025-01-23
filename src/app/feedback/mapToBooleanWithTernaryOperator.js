@@ -1,3 +1,4 @@
+import { getParamValue } from "../../utils";
 import CodeBlock from "../codeBlock";
 import CodeInline from "../codeInline";
 import MiniIDE from "../miniIDE";
@@ -16,10 +17,10 @@ const usageOption = {
 }
 
 export default function MapToBooleanWithTernaryOperator({misconInfo}) {
-    const ternaryText = misconInfo.has(textParam) ? misconInfo.get(textParam).trim() : "";
-    const booleanExpression = misconInfo.has(conditionParam) ? misconInfo.get(conditionParam) : "";
-    const parentText = misconInfo.has(parentTextParam) ? misconInfo.get(parentTextParam) : "";
-    const parentEntity = misconInfo.has(parentEntityParam) ? misconInfo.get(parentEntityParam) : "";
+    const ternaryText = getParamValue(textParam, "", misconInfo);
+    const booleanExpression = getParamValue(conditionParam, "", misconInfo);
+    const parentText = getParamValue(parentTextParam, "", misconInfo);
+    const parentEntity = getParamValue(parentEntityParam, "", misconInfo);
 
     return <>
         <h1><CodeInline code={ternaryText} /> is the same as <CodeInline code={booleanExpression} /></h1>

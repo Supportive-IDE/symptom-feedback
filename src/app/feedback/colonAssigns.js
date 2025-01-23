@@ -1,3 +1,4 @@
+import { getParamValue } from "../../utils";
 import CodeBlock from "../codeBlock";
 import CodeInline from "../codeInline";
 import { LINE_NUMBER } from "../config";
@@ -5,9 +6,11 @@ import MiniIDE from "../miniIDE";
 
 export default function ColonAssigns({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
-    const fullText = misconInfo.has("text") ? misconInfo.get("text") : "";
-    const variableName = misconInfo.has("variableName") ? <CodeInline code={misconInfo.get("variableName")} /> : "a variable";
-    const assignedValue = misconInfo.has("assignedValue") ? <CodeInline code={misconInfo.get("assignedValue")} /> : "a value";
+    const fullText = getParamValue("text", "", misconInfo);
+    let variableName = getParamValue("variableName", "", misconInfo);
+    variableName = variableName !== "" ? <CodeInline code={variableName} /> : "a variable";
+    let assignedValue = getParamValue("assignedValue", "", misconInfo);
+    assignedValue = assignedValue !== "" ? <CodeInline code={assignedValue} /> : "a value";
 
     return <>
         <h1>Use <CodeInline code="=" /> to assign a value to a variable</h1>

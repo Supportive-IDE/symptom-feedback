@@ -1,11 +1,12 @@
 import CodeBlock from "../codeBlock";
 import CodeInline from "../codeInline";
 import { LINE_NUMBER } from "../config";
+import { getParamValue } from "../../utils";
 import MiniIDE from "../miniIDE";
 
 export default function AssignCompares({misconInfo}) {
     const lineNumber = misconInfo.has(LINE_NUMBER) ? Number(misconInfo.get(LINE_NUMBER)) : -1;
-    const parentText = misconInfo.has("parentText") ? misconInfo.get("parentText") : ""
+    const parentText = getParamValue("parentText", "", misconInfo);
 
     // CHECK TYPES OF EXPRESSION if, elif, while - create function to use appropriate wording e.g. AN if STATEMENT, vs A while LOOP
     return <>

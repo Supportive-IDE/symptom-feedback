@@ -1,4 +1,4 @@
-import { findAndConvertUrlParam } from "../../utils";
+import { findAndConvertUrlParam, getParamValue } from "../../utils";
 import { LINE_NUMBER } from "../config";
 import MiniIDE from "../miniIDE";
 import CodeInline from "../codeInline";
@@ -19,7 +19,7 @@ const createUnusedReturn = searchParams => {
     const lineNumber = searchParams.has(LINE_NUMBER) ? Number(searchParams.get(LINE_NUMBER)): -1;
     const unusedType = findAndConvertUrlParam(searchParams, expressionUnusedType);
     const unusedText = findAndConvertUrlParam(searchParams, expressionUnusedText);
-    const returnType = searchParams.has(expressionReturnType) ? searchParams.get(expressionReturnType) : "value";
+    const returnType = getParamValue(expressionReturnType, "value", searchParams);
     return new UnusedReturnMiscon(lineNumber, unusedType, unusedText, returnType);
 }
 
