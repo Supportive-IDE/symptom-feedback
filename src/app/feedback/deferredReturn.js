@@ -18,7 +18,7 @@ export default function DeferredReturn({misconInfo}) {
         <p>Run the code below and notice how the second print statement never executes:</p>
         <MiniIDE startingCode={['# Incorrect', ' ','def test():', '\tprint("First print")', '\treturn 1', '\tprint("Second print")', '', 'my_var = test()']} />
         <p>The second print statement will never be reached because Python will exit <CodeInline code="test()" /> as soon as 
-        it encounters the <CodeInline code="return" />.</p>
+        it reaches <CodeInline code="return" />.</p>
         <p>Moving the second print statement before the <CodeInline code="return" /> fixes the issue:</p>
         <MiniIDE startingCode={['# Correct', ' ', 'def test():', '\tprint("First print")', '\tprint("Second print")', '\treturn 1', '', 'my_var = test()']} />
 

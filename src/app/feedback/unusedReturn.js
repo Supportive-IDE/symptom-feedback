@@ -44,8 +44,7 @@ class UnusedReturnMiscon {
     createHelpSummary() {
         if (this.unusedType === expressionType.builtInFunction) {
             return <><p><CodeInline code={this.unusedText + "()"} /> is a Python function that returns a {this.returnType}. When <CodeInline code={this.unusedText + "()"} /> is 
-            called on line {this.lineNumber}, it&apos;s return value is not saved or used, so it will be lost. Look up <CodeInline code={this.unusedText + "()"} /> in 
-            the docs to see examples of how to use it.</p>
+            called on line {this.lineNumber}, it&apos;s return value is not saved or used, so it will be lost.</p>
             <p>One way to save the result of a function call is to assign it to a variable.</p></>
         } 
         return <><p>The <CodeInline code={this.unusedText + "()"} /> function returns a {this.returnType}. When <CodeInline code={this.unusedText + "()"} /> is 
@@ -58,8 +57,8 @@ class UnusedReturnMiscon {
             <h2>Example</h2>
             <p>Read the code below:</p>
             <MiniIDE startingCode={['def square(num):','\treturn num * num', '', 'square(2)']} />
-            <p>The <CodeInline code="square()" /> function returns a number. The function is called on line 3, where 
-            it is passed 2 as an argument. The result of the function call will be 4 (<CodeInline code="2 * 2" />) but 
+            <p>The <CodeInline code="square()" /> function returns a number. The function is called on line 3. 
+            It is passed 2 as an argument. The result of the function call will be 4 but 
             the value is not saved so it is lost. A simple way to save the value is to assign it to a variable:</p>
             <MiniIDE startingCode={['def square(num):','\treturn num * num', '', 'my_var = square(2)']} />
             <p>You can also pass the returned value to a function, such as <CodeInline code="print()" />:</p>

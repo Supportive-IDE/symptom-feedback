@@ -1,5 +1,5 @@
 "use client";
-import { ASSIGN_COMPARES, COLON_ASSIGNS, COMPARE_MULTIPLE_WITH_OR, COMPARISON_WITH_BOOL_LITERAL, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FOR_LOOP_VAR_IS_LOCAL, FUNCTION_CALL_NO_PARENS, ITERATION_REQUIRES_TWO_LOOPS, LOCAL_VARS_ARE_GLOBAL, LOOP_COUNTER, MAP_BOOLEAN_TO_IF, MAP_BOOLEAN_TO_TERNARY, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, RETURN_CALL, TARGET_OUTSIDE_LOOP, TYPE_SPECIFIED, UNUSED_RETURN, WHILE_SAME_AS_IF } from "./config";
+import { ASSIGN_COMPARES, COLON_ASSIGNS, COMPARE_MULTIPLE_WITH_OR, COMPARISON_WITH_BOOL_LITERAL, CONDITIONAL_SEQUENCE, DEFERRED_RETURN, FOR_LOOP_VAR_IS_LOCAL, FUNCTION_CALL_NO_PARENS, ITERATION_REQUIRES_TWO_LOOPS, LOCAL_VARS_ARE_GLOBAL, LOOP_COUNTER, MAP_BOOLEAN_TO_IF, MAP_BOOLEAN_TO_TERNARY, MISCON, PARAM_ASSIGNED_IN_FUNCTION, PARENS_ONLY_IF_ARGUMENT, PRINT_RETURN, RETURN_CALL, STRING_METHODS_MODIFY, TARGET_OUTSIDE_LOOP, TYPE_SPECIFIED, UNUSED_RETURN, WHILE_SAME_AS_IF } from "./config";
 import CompareMultipleWithOr from "./feedback/compareMultipleWithOr";
 import ConditionalIsSequence from "./feedback/conditionalIsSequence";
 import DeferredReturn from "./feedback/deferredReturn";
@@ -18,6 +18,7 @@ import ForLoopVarIsLocal from "./feedback/forLoopVarIsLocal";
 import MapToBooleanWithTernaryOperator from "./feedback/mapToBooleanWithTernaryOperator";
 import ComparisonWithBoolLiteral from "./feedback/comparisonWithBoolLiteral";
 import IterationRequiresTwoLoops from "./feedback/iterationRequiresTwoLoops";
+import StringMethodsModifyTheString from "./feedback/stringMethodsModifyTheString";
 import LoopCounter from "./feedback/loopCounter";
 import MiniIDE from "./miniIDE";
 import styles from "./page.module.css";
@@ -61,6 +62,8 @@ export default function Home() {
                         return <ParamMustBeAssignedInFunction misconInfo={searchParams} />
                     case PRINT_RETURN:
                         return <PrintSameAsReturn misconInfo={searchParams} />
+                    case STRING_METHODS_MODIFY:
+                        return <StringMethodsModifyTheString misconInfo={searchParams} />
                     case TYPE_SPECIFIED:
                         return <TypeMustBeSpecified misconInfo={searchParams} />
                     case UNUSED_RETURN:
