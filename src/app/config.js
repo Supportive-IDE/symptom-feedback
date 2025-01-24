@@ -23,6 +23,7 @@ export const PARAM_ASSIGNED_IN_FUNCTION = "ParameterMustBeAssignedInFunction";
 export const PARENS_ONLY_IF_ARGUMENT = "ParenthesesOnlyIfArgument";
 export const PRINT_RETURN = "PrintSameAsReturn";
 export const RETURN_CALL = "ReturnCall";
+export const RETURN_WAITS_FOR_LOOP = "ReturnWaitsForLoop";
 export const CONDITIONAL_SEQUENCE = "ConditionalIsSequence";
 export const STRING_METHODS_MODIFY = "StringMethodsModifyTheString";
 export const TYPE_CONVERSION_MODIFIES = "TypeConversionModifiesArgument";
@@ -32,7 +33,7 @@ export const WHILE_SAME_AS_IF = "WhileSameAsIf";
 
 //#region Selected symptoms
 export const ASSIGNED_NONE = "AssignedNone";
-export const UNUSED_RETURN = "UnusedReturn";
+export const UNUSED_RETURN = "UnusedReturn"; // Now a misconception too
 //#endregion
 
 //#region data types
