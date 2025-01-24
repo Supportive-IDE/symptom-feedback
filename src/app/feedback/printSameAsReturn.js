@@ -182,7 +182,7 @@ class PrintReturnAssignedNone extends PrintReturn {
             <h2>More detail</h2>
             <p>Run the code below:</p>
             <MiniIDE startingCode={`${this.assignedNoneTarget} = print("Hello, World!")\nprint(${this.assignedNoneTarget})`} />
-            <p>You should see two lines of output: "Hello, World!" and "None". 
+            <p>You should see two lines of output: &quot;Hello, World!&quot; and &quot;None&quot;. 
             The first line is printed by <CodeInline code="print()" /> on line 1. The second line is printed by the code on line 2, which prints the 
             value of <CodeInline code={this.assignedNoneTarget} />. This variable will always have the value <CodeInline code="None" />, no matter what text is passed to <CodeInline code="print()" />. 
             This is because <CodeInline code="print()" /> does not return a value even though you can see its output in the terminal. Try changing the text 
@@ -227,7 +227,7 @@ class PrintReturnAssignedNone extends PrintReturn {
             <MiniIDE startingCode={['# Incorrect', '', 'def get_last_letter(word):', '\tlast_letter = word[-1]', '\tprint(last_letter)', '', 'print(get_last_letter("apple") == "e")']} />
             <p>The <CodeInline code="get_last_letter()" /> function does not return anything 
             but it does print a message. When the code runs, two statements are printed: &quot;e&quot; and &quot;None&quot;. The 
-            problem is on line 7, which checks if the value returned by the function is "e". The function has no return so this comparison will be <CodeInline code="False" />. </p>
+            problem is on line 7, which checks if the value returned by the function is &quot;e&quot;. The function has no return so this comparison will be <CodeInline code="False" />. </p>
             <p>The best way to improve the code is to modify <CodeInline code="get_last_letter()" /> to return the last letter instead 
             of printing:</p>
             <MiniIDE startingCode={['# Correct', '', 'def get_last_letter(word):', '\tlast_letter = word[-1]', '\treturn last_letter', '', 'print(get_last_letter("apple") == "e")']} />

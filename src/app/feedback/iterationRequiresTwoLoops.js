@@ -13,7 +13,7 @@ export default function IterationRequiresTwoLoops({misconInfo}) {
 
     return <>
         <h1>A <CodeInline code="while" /> loop might not be needed</h1>
-        <p>The <CodeInline code="while" /> loop on line {lineNumber} has a "loop variable", {loopVariable}.</p>
+        <p>The <CodeInline code="while" /> loop on line {lineNumber} has a &quot;loop variable&quot;, {loopVariable}.</p>
         <CodeBlock code={outerLoopText} />
         {
             modifiedLoopTypes.length === 1 ?

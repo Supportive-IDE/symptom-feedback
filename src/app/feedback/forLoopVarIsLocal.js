@@ -15,7 +15,7 @@ export default function ForLoopVarIsLocal({misconInfo}) {
     if (overwrttenIsDefinition) {
         return <>
             <h1>For loop variables don&apos;t need to be defined outside the loop</h1>
-            <p>The "loop variable" in this <CodeInline code="for" /> loop is {loopVariable}:</p>
+            <p>The &quot;loop variable&quot; in this <CodeInline code="for" /> loop is {loopVariable}:</p>
             <CodeBlock code={forDefinition} />
             <p>The value of a <CodeInline code="for" /> loop variable is set by the <CodeInline code="for" /> loop. This means you do not 
             need to define {loopVariable} on line {overwrittenVarLine}.</p>
@@ -29,7 +29,7 @@ export default function ForLoopVarIsLocal({misconInfo}) {
     } else {
         return <>
             <h1>A for loop changes the value of an existing variable</h1>
-            <p>The "loop variable" in this <CodeInline code="for" /> loop is {loopVariable}:</p>
+            <p>The &quot;loop variable&quot; in this <CodeInline code="for" /> loop is {loopVariable}:</p>
             <CodeBlock code={forDefinition} />
             <p>Your code already contains a variable called {loopVariable}. Its value was last set on line {overwrittenVarLine}. The 
             <CodeInline code="for" /> loop will change the value of the existing variable. If this is not your intention, give 

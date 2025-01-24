@@ -40,7 +40,7 @@ export default function LoopCounter({misconInfo}) {
 
     return <>
         <h1>Avoid changing the value of a <CodeInline code="for" /> loop variable</h1>
-        <p>The "loop variable" in this <CodeInline code="for" /> loop is {loopVariable}:</p>
+        <p>The &quot;loop variable&quot; in this <CodeInline code="for" /> loop is {loopVariable}:</p>
         <CodeBlock code={forDefinition} />
         <p>On line {lineNumber}, {loopVariable} is given a new value:</p>
         <CodeBlock code={modificationText} />
