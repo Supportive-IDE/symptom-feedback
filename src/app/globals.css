@@ -83,6 +83,10 @@ button {
   color: rgb(var(--highlight-button-text));
 }
 
+#feedback-content {
+  width:100%
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
