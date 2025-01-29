@@ -77,7 +77,7 @@ const MiniIDE = ({startingCode}) => {
     return (
         <div className={styles.miniIDE}>
             <CodeEditor startingCode={code.current} setView={v => { view.current = v; }} runCode={runCode} resetCode={resetCode} />
-            <CodeOutput text={out} />
+            <CodeOutput text={out} prefix="%" />
         </div>
     )
 };

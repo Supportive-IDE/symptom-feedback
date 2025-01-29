@@ -5,32 +5,25 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
-  --highlight-button-bg: 52, 58, 235;
-  --highlight-button-text: 255, 255, 255;
-  --border-color: 100, 100, 100;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-rgb: 255, 255, 255;
-    --highlight-button-bg: 52, 58, 235;
-    --highlight-button-text: 255, 255, 255;
-    --border-color: 200, 200, 200;
-    --obvious-border-color: 100, 100, 100;
-  }
+  --foreground: #213547;
+  --far-background-color: #f2f1f1;
+  --background: #ffffff;
+  --highlight-button-bg: linear-gradient(0.9turn, #535bf2, #9095fb);
+  --highlight-button-border: #535bf2;
+  --highlight-button-text: #ffffff;
+  --gradient-hover: linear-gradient(0.9turn, #08b3f7, #6ed2f9);
+  --outline: 4px auto #08b3f7;
+  --border-color: #e4e2e2;
+  --obvious-border-color: rgb(100, 100, 100);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-rgb: 0, 0, 0;
-    --highlight-button-bg: 255, 255, 255;
-    --highlight-button-text: 52, 58, 235;
-    --border-color: 100, 100, 100;
-    --obvious-border-color: 200, 200, 200;
+    --foreground: rgb(255, 255, 255, 0.87);
+    --background: #242424;
+    --far-background-color: #000000;
+    --border-color: #4b4b4b;
+    --obvious-border-color: rgb(200, 200, 200);
   }
 }
 
@@ -41,7 +34,7 @@
 }
 
 hr {
-  border-top-color: rgb(var(--obvious-border-color));
+  border-top-color: var(--obvious-border-color);
   margin: 2em 0 1em 0;
   width: 100%;
 }
@@ -53,8 +46,8 @@ body {
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  color: var(--foreground);
+  background: var(--background);
 }
 
 h1, h2, h3, h4, h5, h6, p, li {
@@ -62,30 +55,126 @@ h1, h2, h3, h4, h5, h6, p, li {
   line-height: 1.5em;
 }
 
-a {
-  /* color: inherit;
-  text-decoration: none; */
-}
-
 ul {
   list-style-position: inside;
 }
 
 button {
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  border-color: rgb(var(--border-color));
+  padding: 0.6em 1em;
+  border-radius: 6px;
+  min-width: 5em;
+  border: none;
+}
+
+button:hover {
+  background: var(--gradient-hover);
+}
+
+button:focus {
+  outline: var(--outline);
 }
 
 .highlight-btn {
-  background-color: rgb(var(--highlight-button-bg));
-  border-color: rgb(var(--highlight-button-bg));
-  color: rgb(var(--highlight-button-text));
+  background: var(--highlight-button-bg);
+  color: var(--highlight-button-text);
 }
 
 #feedback-content {
   width:100%
 }
+
+/** PrismJS overrides **/
+pre {
+  width: 100%;
+  background-color: var(--background-color) !important; 
+}
+
+code {
+  background-color: var(--background-color) !important;
+}
+
+.token, .language-python {
+  text-shadow: none !important;
+  color: #289dc8 !important;
+}
+
+.language-python:not(:has(span)), .token.punctuation {
+  color: var(--foreground) !important;
+}
+
+.token.keyword {
+  color: #8959A8 !important;
+}
+
+.token.builtin, .token.function {
+  color: #4271AE !important;
+}
+
+.token.class-name {
+  color: #C99E00 !important;
+}
+
+.token.boolean, .token.number {
+  color: #F5871F !important;
+}
+
+.token.string, .token.char, .token.symbol {
+  color: #718C00 !important;
+}
+
+.token.operator {
+  color: #3E999F !important;
+  background: transparent !important;
+}
+
+.token.variable, .token.constant, .token.property {
+  color: #289dc8 !important;
+}
+
+.token.comment {
+  color: #8E908C !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .token, .language-python {
+    text-shadow: none !important;
+    color: #289dc8 !important;
+  }
+
+  .token.keyword {
+    color: #b54df7 !important;
+  }
+  
+  .token.builtin, .token.function {
+    color: #5d93d9 !important;
+  }
+  
+  .token.class-name {
+    color: #e8b809 !important;
+  }
+  
+  .token.boolean, .token.number {
+    color: #F5871F !important;
+  }
+  
+  .token.string, .token.char, .token.symbol {
+    color: #71d111 !important;
+  }
+  
+  .token.operator {
+    color: #45a9b0 !important;
+  }
+  
+  .token.variable, .token.constant, .token.property {
+    color: #42c5f5 !important;
+  }
+  
+  .token.comment {
+    color: #8E908C !important;
+  }
+}
+
+/** End PrismJS overrides **/
 
 @media (prefers-color-scheme: dark) {
   html {

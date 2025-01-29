@@ -136,7 +136,7 @@ const Repl = () => {
 
 
     return <div className={styles.repl}>
-        <CodeOutput text={out} />
+        <CodeOutput text={out} prefix="" />
     </div>
 }
 

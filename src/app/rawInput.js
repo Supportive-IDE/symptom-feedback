@@ -16,11 +16,11 @@ const RawInput = ({prompt, submitHandler}) => {
     }
 
     return isActive ? 
-        <p>
+        <>
             <label htmlFor="userIn">{prompt}</label>
             <input id="userIn" className={styles.userInput} type="text" onKeyDown={keyDown} onChange={valueChanged} value={value} autoFocus/>
-        </p>
-        : <p className={styles.savedInput}>{prompt}{value}</p>
+        </>
+        : <span className={styles.savedInput}>{prompt}{value}</span>
     };
 
 export default RawInput;

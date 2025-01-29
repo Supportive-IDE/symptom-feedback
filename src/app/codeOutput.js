@@ -1,11 +1,11 @@
 import styles from "./codeOutput.module.css";
 
 
-// Modify this to be display vs input?
-const CodeOutput = ({text}) => {
+const CodeOutput = ({text, prefix}) => {
 
-    return <div className={styles.output}>{
-        text.map((line, i) => <div key={i}>{line}</div>)
+
+    return text.length === 0 ? <></> : <div className={styles.output}>{
+        text.map((line, i) => <div key={i}>{prefix} {line}</div>)
     }</div>
 }
 
