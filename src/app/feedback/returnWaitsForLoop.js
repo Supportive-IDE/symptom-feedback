@@ -32,7 +32,7 @@ export default function ReturnWaitsForLoop({misconInfo}) {
             </>
         }
         return <>
-            <p>The <CodeInline code="return" /> on line {lineNumber} causes a {loopType} to only run once. This is because Python 
+            <p>The <CodeInline code="return" /> on line {lineNumber} causes a {loopType} loop to only run once. This is because Python 
                 will always reach the <CodeInline code="return" /> the first time the loop runs.
             </p>
             <p>How to fix this depends on what you are trying to do. If the function should not <CodeInline code="return" /> until 
@@ -55,7 +55,7 @@ export default function ReturnWaitsForLoop({misconInfo}) {
         <p>Run the code below. The output shows that only the first item in the list passed to <CodeInline code="under_ten()" /> is checked:</p>
         <MiniIDE startingCode={['def under_ten(ages):', '\t # Incorrect', '\tfor age in ages:', '\t\tprint("Checking age:", age)', '\t\tif age < 10:', 
                     '\t\t\treturn True', '\t\telse:', '\t\t\treturn False', '', 'result = under_ten([18, 9, 12, 11])', 'print("An age less than 10 was found:", result)']} />
-        <p>The <CodeInline code="return" /> on line 9 causes the function to end before it checks all values in the list. To fix this, 
+        <p>The <CodeInline code="return" /> on line 8 causes the function to end before it checks all values in the list. To fix this, 
         we can move the second <CodeInline code="return" /> outside the <CodeInline code="for" /> loop:</p>
         <MiniIDE startingCode={['def under_ten(ages):', '\t # Incorrect', '\tfor age in ages:', '\t\tprint("Checking age:", age)', '\t\tif age < 10:', 
                     '\t\t\treturn True', '\treturn False', '', 'result = under_ten([18, 9, 12, 11])', 'print("An age less than 10 was found:", result)']} />
