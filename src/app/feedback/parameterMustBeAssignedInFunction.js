@@ -12,7 +12,7 @@ export default function ParamMustBeAssignedInFunction({misconInfo}) {
     return <>
         <h1>The value of {paramName !== "" ? <>the argument <CodeInline code={paramName} ></CodeInline></> : "an argument"} is replaced before it can be used</h1>
         <p><CodeInline code={paramName} /> is a parameter, which means its value is set when {functionName} is called. However, on 
-        line {lineNumber}, the passed in value is replaced. This means that the value passed in to <CodeInline code={paramName} /> will 
+        line {lineNumber}, this value is replaced. This means that the value passed in to <CodeInline code={paramName} /> will 
         not have any effect in the function.</p>
         <h2>How to fix?</h2>
         <p>Avoid setting the value of a parameter inside a function, at least before the parameter has been used. This will allow the code that calls the function 
