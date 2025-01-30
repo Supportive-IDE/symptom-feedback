@@ -91,7 +91,7 @@ export default function MapToBooleanWithIf({misconInfo}) {
                 <>
                     <p>The value returned by the <CodeInline code="if... else"/> in <CodeInline code="check_height()" /> will always be the same as <CodeInline code="height_in_cm > 100" />.</p>
                     <MiniIDE startingCode={['# Before', ' ', 'def check_height(user_in):', '\theight_in_cm = int(user_in)', '\tif height_in_cm > 100:', '\t\treturn True', '\telse:', '\t\treturn False', '', 'height = int(input("Enter your height in CM: "))', 'print(check_height(height))']} />
-                    <p>This means that the conditional can be removed and the boolean expression can be 
+                    <p>This means that the <CodeInline code="if... else"/> can be removed and <CodeInline code="height > 100" /> can be 
                     returned directly:</p>
                     <MiniIDE startingCode={['# After', ' ', 'def check_height(user_in):', '\theight_in_cm = int(user_in)', '\treturn height_in_cm > 100', '', 'height = int(input("Enter your height in CM: "))', 'print(check_height(height))']} />
                 </>
