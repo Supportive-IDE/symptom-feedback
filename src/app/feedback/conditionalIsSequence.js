@@ -49,12 +49,12 @@ export default function ConditionalIsSequence({misconInfo}) {
         <h1>Sequence of <CodeInline code="if" /> statements</h1>
         <p>There is a sequence of similar <CodeInline code="if" /> statements starting on line {lineNumber}:</p>
         <CodeBlock code={ifs} />
-        <p>If only one of these statements should execute, use <CodeInline code="elif" /> instead of <CodeInline code="if" /> for the 
+        <p>If only one of these statements should run, use <CodeInline code="elif" /> instead of <CodeInline code="if" /> for the 
        statements after the first <CodeInline code="if" />.</p>
        <h2>Why does it matter?</h2>
-       <p><CodeInline code="if" /> statements are always executed. When only one of the <code>if</code> branches in a sequence should run, use <CodeInline code="elif" /> instead 
+       <p>The first line of an <CodeInline code="if" /> is always executed. When only one branch in a sequence should run, use <CodeInline code="elif" /> instead 
         of <CodeInline code="if" /> for all branches after the first <CodeInline code="if" />. This is more efficient because Python will skip the rest of the 
-        conditional statement once a match is found. It will also ensure that only one branch of code can execute 
+        branches once a match is found. It will also ensure that only one branch of code can execute 
         if the conditions overlap.</p>
        <p>If it should be 
         possible for more than one branch to run, leave the <CodeInline code="if" /> statements as they are.</p>
