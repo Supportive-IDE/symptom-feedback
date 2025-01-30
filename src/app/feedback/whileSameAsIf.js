@@ -42,7 +42,7 @@ export default function WhileSameAsIf({misconInfo}) {
     }
 
     return <>
-        <h1>A <CodeInline code="while" /> loop only runs once</h1>
+        <h1>This <CodeInline code="while" /> loop doesn&apos;t loop</h1>
         <p>The code inside this <CodeInline code="while" /> loop only runs once:</p>
         <CodeBlock code={adjustIndents()} />
         <p>If you only want the loop to run once, you can change <CodeInline code="while" /> to <CodeInline code="if" />.</p>
