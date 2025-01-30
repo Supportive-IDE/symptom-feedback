@@ -326,10 +326,10 @@ class PrintReturnAssignedNone extends PrintReturn {
             <p>Here is an example of code with a similar issue:</p>
             <MiniIDE startingCode={['# Incorrect', '', `def greeting(name):`, `\tprint("Hello", name)`, '', 'print(greeting("Elmo"))']} />
             <p>Run the code. Notice that the output shows &quot;Hello Elmo&quot;, which is printed by the <CodeInline code="greeting()" /> function. However, it also prints &quot;None&quot; on the next 
-            line. <CodeInline code="greeting()" /> doesn&apos;t return anything so the <CodeInline code="print()" /> on line 4 
+            line. <CodeInline code="greeting()" /> doesn&apos;t return anything so the <CodeInline code="print()" /> on line 6 
             is <CodeInline code="None" />.</p>
             <h3>Option 1</h3>
-            <p>Fix the problem by removing the extra <CodeInline code="print()" /> on line 4:</p>
+            <p>Fix the problem by removing the extra <CodeInline code="print()" /> on line 6:</p>
             <MiniIDE startingCode={['# Correct', '', `def greeting(name):`, `\tprint("Hello", name)`, '', 'greeting("Elmo")']} />
             <h3>Option 2</h3>
             <p>Another option is to modify <CodeInline code="greeting()" /> so that it returns a value instead of printing. This would make the function more flexible and easier 
