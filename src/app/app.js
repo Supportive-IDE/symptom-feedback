@@ -27,6 +27,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function App() {
     const searchParams = useSearchParams();
+    
 
     switch (searchParams.get(MISCON)) {
         case ASSIGN_COMPARES:
