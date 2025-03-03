@@ -1,3 +1,4 @@
+export const LOGGING_URL = 'https://side-api-562effcc639e.herokuapp.com';
 /** URL Params - general */
 export const MISCON = "miscon";
 export const LINE_NUMBER = "lineNumber";

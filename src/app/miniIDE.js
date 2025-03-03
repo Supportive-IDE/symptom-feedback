@@ -4,6 +4,7 @@ import Sk from "skulpt";
 import CodeOutput from "./codeOutput";
 import styles from "./miniIDE.module.css";
 import RawInput from "./rawInput";
+import { sendData } from "../utils";
 
 /**
  * A Python code editor with a run button and terminal.
@@ -38,6 +39,8 @@ const MiniIDE = ({startingCode}) => {
      */
     const runCode = () => {
         if (view.current === null) return;
+        // Log
+        sendData({eventType: "runCode", notes: view.current.state.doc.toString()});
         // This gets ignored after an input
         setOut([]);
         // Get the code in the editor view
@@ -58,11 +61,14 @@ const MiniIDE = ({startingCode}) => {
             console.log(err);
             addOutput(err.toString());
         });
+
     }
 
     const resetCode = () => {
         code.current = startingCode;
         view.current.state.doc = typeof startingCode === "string" ? startingCode : startingCode.join("\n");
+        // Log
+        sendData({eventType: "resetCode", notes: view.current.state.doc.toString()});
         setOut([]);
     }
 

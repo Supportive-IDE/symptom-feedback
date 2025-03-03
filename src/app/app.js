@@ -23,11 +23,23 @@ import ReturnWaitsForLoop from "./feedback/returnWaitsForLoop";
 import LoopCounter from "./feedback/loopCounter";
 import MiniIDE from "./miniIDE";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { sendData } from "../utils";
 
 
 export default function App() {
     const searchParams = useSearchParams();
     
+    useEffect(() => {
+        sendData({eventType: "load", notes: ""});
+
+        const scrolled = () => {
+            sendData({eventType: "scroll", notes: ""});
+        }
+        document.addEventListener('scrollend', scrolled);
+
+        return () => document.removeEventListener('scrollend', scrolled);
+    }, []);
 
     switch (searchParams.get(MISCON)) {
         case ASSIGN_COMPARES:
