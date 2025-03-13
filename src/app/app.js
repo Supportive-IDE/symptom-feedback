@@ -31,15 +31,17 @@ export default function App() {
     const searchParams = useSearchParams();
     
     useEffect(() => {
-        sendData({eventType: "load", notes: ""});
+        if (searchParams.has("log") && searchParams.get("log") === true) {
+            sendData({eventType: "load", notes: ""});
 
-        const scrolled = () => {
-            sendData({eventType: "scroll", notes: ""});
+            const scrolled = () => {
+                sendData({eventType: "scroll", notes: ""});
+            }
+            document.addEventListener('scrollend', scrolled);
+
+            return () => document.removeEventListener('scrollend', scrolled);
         }
-        document.addEventListener('scrollend', scrolled);
-
-        return () => document.removeEventListener('scrollend', scrolled);
-    }, []);
+    }, [searchParams]);
 
     switch (searchParams.get(MISCON)) {
         case ASSIGN_COMPARES:
