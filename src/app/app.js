@@ -31,7 +31,7 @@ export default function App() {
     const searchParams = useSearchParams();
     
     useEffect(() => {
-        if (searchParams.has("log") && searchParams.get("log") === true) {
+        if (searchParams.has("log") && searchParams.get("log") === "true") {
             sendData({eventType: "load", notes: ""});
 
             const scrolled = () => {
